@@ -103,15 +103,17 @@ def operator_update(op):
     if result_on_screen:
         total_calculation = ''
         result_on_screen = False
-    
-    print(current_calculation)
+        
     if current_calculation:
         total_calculation += current_calculation
         total_calculation += op
-    elif total_calculation[-2] == '*':
-        total_calculation = total_calculation[:-2] + op
-    else:
-        total_calculation = total_calculation[:-1] + op
+    elif total_calculation:
+        if total_calculation[-2] == '*':
+            total_calculation = total_calculation[:-2] + op
+        else:
+            total_calculation = total_calculation[:-1] + op
+    elif op == '-' or op == '+':
+        total_calculation = op
     current_calculation=""
     update()
     
