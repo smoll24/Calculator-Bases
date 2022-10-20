@@ -108,6 +108,8 @@ def operator_update(op):
     if current_calculation:
         total_calculation += current_calculation
         total_calculation += op
+    elif total_calculation[-2] == '*':
+        total_calculation = total_calculation[:-2] + op
     else:
         total_calculation = total_calculation[:-1] + op
     current_calculation=""
