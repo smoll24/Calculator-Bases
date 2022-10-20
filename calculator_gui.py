@@ -82,8 +82,7 @@ def add_to_exp(value):
     global result_on_screen
     
     if result_on_screen:
-        if value != '**':
-            current_calculation = ''
+        current_calculation = ''
         total_calculation = ''
         result_on_screen = False
     
@@ -92,7 +91,7 @@ def add_to_exp(value):
             current_calculation += str(value)
         else:
             current_calculation = current_calculation[1:] + str(value)
-    elif value != '**':
+    else:
         current_calculation += str(value)
     update()
     
@@ -238,7 +237,7 @@ def create_window():
     parenthesis.grid(row=0, column=3, sticky = tk.NSEW)
 
     square = tk.Button(buttonframe, text="x\u02B8", bg="#F8FAFF", fg="#570861",
-                            font=("Arial",20), borderwidth=0, command = lambda x="**": add_to_exp(x))
+                            font=("Arial",20), borderwidth=0, command = lambda x = '**': operator_update(x))
     square.grid(row=0, column=4, sticky = tk.NSEW)
 
     buttonframe.rowconfigure(0,weight=1)
