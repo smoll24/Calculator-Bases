@@ -3,8 +3,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 total_calculation = ""
-global current_calculation
 current_calculation = ""
+result_is_in_box = False
 
 OPTIONS = {
     "Binary (2)" : 2,
@@ -32,7 +32,6 @@ VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 OPERATIONS = '+-/*%()'
 
 # Définition des fonctions
-
 def numberToBase(num,fromB = 10,toB = 10):
     '''Converts a number inputed as a string from one base to another
     Arguments:
@@ -71,10 +70,6 @@ def numberToBase(num,fromB = 10,toB = 10):
     return result
 
 def update():
-    '''
-    Chris didn't write the docstring.
-    This is what happened.
-    '''
     total_calc_label.config(text=total_calculation)
     calc_label.config(text=current_calculation)
     total_calc_label.pack(expand=True, fill="both")
@@ -82,11 +77,15 @@ def update():
 
 
 def add_to_exp(value):
-    '''
-    Chris didn't write the docstring.
-    This is what happened.
-    '''
     global current_calculation
+    global total_calculation
+    global result_is_in_box
+    
+    #if result_is_in_box:
+    #    total_calculation = ''
+    #    current_calculation = ''
+    #    result_is_in_box = False
+    
     if len(current_calculation) >= 1:   
         if current_calculation[0] !=  "0":
             current_calculation += str(value)
@@ -97,12 +96,14 @@ def add_to_exp(value):
     update()
     
 def operator_update(op):
-    '''
-    Samy didn't write the docstring.
-    This is what happened.
-    '''
     global total_calculation
     global current_calculation
+    global result_is_in_box
+    
+    if result_is_in_box:
+        total_calculation = ''
+        result_is_in_box = False
+    
     print(current_calculation)
     if current_calculation:
         total_calculation += current_calculation
@@ -113,10 +114,6 @@ def operator_update(op):
     update()
     
 def clear():
-    '''
-    Samy didn't write the docstring.
-    This is what happened.
-    '''
     global current_calculation
     global total_calculation
     current_calculation = ""
@@ -124,15 +121,18 @@ def clear():
     update()
 
 def evaluate():
-    '''
-    Samy didn't write the docstring.
-    This is what happened.
-    '''
     global total_calculation
     global current_calculation
+    global result_is_in_box
+    
+    if result_is_in_box:
+        total_calculation = ''
+        
     total_calculation += current_calculation    
     current_calculation = baseEval_str(total_calculation, 16, 16)
-    total_calculation = ""
+    
+    result_is_in_box = True
+    #total_calculation = ""
     update()
     return current_calculation
     
@@ -173,75 +173,83 @@ def baseEval_str(saisie,convert_from,convert_to):
         print(e)
         raise
 
-# Création de la fenêtre tkinter
-win = tk.Tk()
-win.geometry('375x650')
-win.title('Calculator GUI')
-win.configure(background='#e4e4e4')
-win.resizable(0,0)
+def create_window():
+    global total_calc_label, calc_label
+    # Création de la fenêtre tkinter
+    win = tk.Tk()
+    win.geometry('375x650')
+    win.title('Calculator GUI')
+    win.configure(background='#e4e4e4')
+    win.resizable(0,0)
 
-calcframe = tk.Frame(win)
-calcframe.pack(expand=True, fill="both")
+    calcframe = tk.Frame(win)
+    calcframe.pack(expand=True, fill="both")
 
-buttonframe = tk.Frame(win, height=221, bg = "#F5F5F5")
-buttonframe.pack(expand=True, fill="both")
+    buttonframe = tk.Frame(win, height=221, bg = "#F5F5F5")
+    buttonframe.pack(expand=True, fill="both")
 
 
-total_calc_label = tk.Label(calcframe, text=total_calculation, anchor=tk.E,fg="#570861", padx=40,font=("Arial",16))
-total_calc_label.pack(expand=True, fill="both")
+    total_calc_label = tk.Label(calcframe, text=total_calculation, anchor=tk.E,fg="#570861", padx=40,font=("Arial",16))
+    total_calc_label.pack(expand=True, fill="both")
 
-calc_label = tk.Label(calcframe, text=current_calculation, anchor=tk.E,fg="#570861", padx=40,font=("Arial",45))
-calc_label.pack(expand=True, fill="both")
+    calc_label = tk.Label(calcframe, text=current_calculation, anchor=tk.E,fg="#570861", padx=40,font=("Arial",45))
+    calc_label.pack(expand=True, fill="both")
 
-digits_grid = {
-    'F':(1,1), 'E':(1,2), 'D':(1,3), 'C':(1,4),
-    'B':(2,1), 'A':(2,2), 9: (2,3), 8: (2,4),
-    7: (3,1), 6: (3,2), 5: (3,3), 4:(3,4),
-    3: (4,1), 2: (4,2), 1: (4,3), 0: (4,4)
-    }
+    digits_grid = {
+        'F':(1,1), 'E':(1,2), 'D':(1,3), 'C':(1,4),
+        'B':(2,1), 'A':(2,2), 9: (2,3), 8: (2,4),
+        7: (3,1), 6: (3,2), 5: (3,3), 4:(3,4),
+        3: (4,1), 2: (4,2), 1: (4,3), 0: (4,4)
+        }
 
-for digit, gridval in digits_grid.items():
-    button = tk.Button(buttonframe, text=str(digit), bg= "white", fg = "#570861", font=("Arial", 24, "bold"),
-                       borderwidth=0, command=lambda x = digit: add_to_exp(x)) #i hate lambdas >:(
-    button.grid(row=gridval[0], column=gridval[1], sticky=tk.NSEW)
+    for digit, gridval in digits_grid.items():
+        button = tk.Button(buttonframe, text=str(digit), bg= "white", fg = "#570861", font=("Arial", 24, "bold"),
+                           borderwidth=0, command=lambda x = digit: add_to_exp(x)) #i hate lambdas >:(
+        button.grid(row=gridval[0], column=gridval[1], sticky=tk.NSEW)
 
-current_expression = "0"
-print(current_expression)
-update()
+    current_expression = "0"
+    print(current_expression)
+    update()
 
-operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
+    operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
 
-r = 0
-for operator,symbol in operations.items():
-    button = tk.Button(buttonframe, text=symbol, bg="#F8FAFF", fg = "#570861",
-                       font=("Arial", 20), borderwidth=0, command= lambda x = operator: operator_update(x))
-    button.grid(row=r, column=5, sticky=tk.NSEW)
-    r+=1
+    r = 0
+    for operator,symbol in operations.items():
+        button = tk.Button(buttonframe, text=symbol, bg="#F8FAFF", fg = "#570861",
+                           font=("Arial", 20), borderwidth=0, command= lambda x = operator: operator_update(x))
+        button.grid(row=r, column=5, sticky=tk.NSEW)
+        r+=1
 
-clearbutton = tk.Button(buttonframe, text="C", bg="#F8FAFF", fg="#570861",
-                        font=("Arial",20), borderwidth=0, command = clear)
-clearbutton.grid(row=0, column=1, sticky=tk.NSEW)
+    clearbutton = tk.Button(buttonframe, text="C", bg="#F8FAFF", fg="#570861",
+                            font=("Arial",20), borderwidth=0, command = clear)
+    clearbutton.grid(row=0, column=1, sticky=tk.NSEW)
 
-equalbutton = tk.Button(buttonframe, text="=", bg="#F8FAFF", fg="#570861",
-                        font=("Arial",20), borderwidth=0, command= evaluate)
-equalbutton.grid(row=4, column=5, sticky = tk.NSEW)
+    equalbutton = tk.Button(buttonframe, text="=", bg="#F8FAFF", fg="#570861",
+                            font=("Arial",20), borderwidth=0, command= evaluate)
+    equalbutton.grid(row=4, column=5, sticky = tk.NSEW)
 
-parenthesis1 = tk.Button(buttonframe, text="(", bg="#F8FAFF", fg="#570861",
-                        font=("Arial",20), borderwidth=0, command = lambda x="(": add_to_exp(x))
-parenthesis1.grid(row=0, column=2, sticky = tk.NSEW)
+    parenthesis1 = tk.Button(buttonframe, text="(", bg="#F8FAFF", fg="#570861",
+                            font=("Arial",20), borderwidth=0, command = lambda x="(": add_to_exp(x))
+    parenthesis1.grid(row=0, column=2, sticky = tk.NSEW)
 
-parenthesis = tk.Button(buttonframe, text=")", bg="#F8FAFF", fg="#570861",
-                        font=("Arial",20), borderwidth=0, command = lambda x=")": add_to_exp(x))
-parenthesis.grid(row=0, column=3, sticky = tk.NSEW)
+    parenthesis = tk.Button(buttonframe, text=")", bg="#F8FAFF", fg="#570861",
+                            font=("Arial",20), borderwidth=0, command = lambda x=")": add_to_exp(x))
+    parenthesis.grid(row=0, column=3, sticky = tk.NSEW)
 
-square = tk.Button(buttonframe, text="x\u02B8", bg="#F8FAFF", fg="#570861",
-                        font=("Arial",20), borderwidth=0, command = lambda x="**": add_to_exp(x))
-square.grid(row=0, column=4, sticky = tk.NSEW)
+    square = tk.Button(buttonframe, text="x\u02B8", bg="#F8FAFF", fg="#570861",
+                            font=("Arial",20), borderwidth=0, command = lambda x="**": add_to_exp(x))
+    square.grid(row=0, column=4, sticky = tk.NSEW)
 
-buttonframe.rowconfigure(0,weight=1)
-for r in range(0,5):
-    for c in range(1,6):   
-        buttonframe.rowconfigure(r, weight=1)
-        buttonframe.columnconfigure(c,weight=1)
+    buttonframe.rowconfigure(0,weight=1)
+    for r in range(0,5):
+        for c in range(1,6):   
+            buttonframe.rowconfigure(r, weight=1)
+            buttonframe.columnconfigure(c,weight=1)
 
-win.mainloop()
+    win.mainloop()
+
+
+def main():
+  create_window()
+if __name__ == "__main__":
+    main()
