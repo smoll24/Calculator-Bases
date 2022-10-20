@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 
 total_calculation = ""
 current_calculation = ""
-result_is_in_box = False
+result_on_screen = False
 
 OPTIONS = {
     "Binary (2)" : 2,
@@ -79,12 +79,13 @@ def update():
 def add_to_exp(value):
     global current_calculation
     global total_calculation
-    global result_is_in_box
+    global result_on_screen
     
-    #if result_is_in_box:
-    #    total_calculation = ''
-    #    current_calculation = ''
-    #    result_is_in_box = False
+    if result_on_screen:
+        if value != '**':
+            current_calculation = ''
+        total_calculation = ''
+        result_on_screen = False
     
     if len(current_calculation) >= 1:   
         if current_calculation[0] !=  "0":
@@ -98,11 +99,11 @@ def add_to_exp(value):
 def operator_update(op):
     global total_calculation
     global current_calculation
-    global result_is_in_box
+    global result_on_screen
     
-    if result_is_in_box:
+    if result_on_screen:
         total_calculation = ''
-        result_is_in_box = False
+        result_on_screen = False
     
     print(current_calculation)
     if current_calculation:
@@ -123,15 +124,15 @@ def clear():
 def evaluate():
     global total_calculation
     global current_calculation
-    global result_is_in_box
+    global result_on_screen
     
-    if result_is_in_box:
+    if result_on_screen:
         total_calculation = ''
         
     total_calculation += current_calculation    
     current_calculation = baseEval_str(total_calculation, 16, 16)
     
-    result_is_in_box = True
+    result_on_screen = True
     #total_calculation = ""
     update()
     return current_calculation
