@@ -92,7 +92,7 @@ def add_to_exp(value):
             current_calculation += str(value)
         else:
             current_calculation = current_calculation[1:] + str(value)
-    else:
+    elif value != '**':
         current_calculation += str(value)
     update()
     
