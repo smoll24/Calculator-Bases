@@ -12,9 +12,6 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 - direct number conversion
 - see help guide for more info!
 ---
-Examples:
-
-
-<img width="378" alt="Screen Shot 2022-10-20 at 11 19 58 PM" src="https://user-images.githubusercontent.com/98288767/197126348-d89fcfe8-1a38-4322-9c67-7c2cc5ad82c7.png">
+Calculator Example:
 
 <img width="384" alt="Screen Shot 2022-10-20 at 11 20 25 PM" src="https://user-images.githubusercontent.com/98288767/197126403-59dba57f-f295-459f-ba92-ca6f1734bb5f.png">
