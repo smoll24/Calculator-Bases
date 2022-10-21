@@ -81,19 +81,20 @@ def add_to_exp(value):
     global total_calculation
     global result_on_screen
     
-    if result_on_screen:
-        current_calculation = ''
-        total_calculation = ''
-        result_on_screen = False
-    
-    if len(current_calculation) >= 1:   
-        if current_calculation[0] !=  "0":
-            current_calculation += str(value)
+    if VALUES.find(str(value)) < OPTIONS.get(clicked.get()):
+        if result_on_screen:
+            current_calculation = ''
+            total_calculation = ''
+            result_on_screen = False
+        
+        if len(current_calculation) >= 1:   
+            if current_calculation[0] !=  "0":
+                current_calculation += str(value)
+            else:
+                current_calculation = current_calculation[1:] + str(value)
         else:
-            current_calculation = current_calculation[1:] + str(value)
-    else:
-        current_calculation += str(value)
-    update()
+            current_calculation += str(value)
+        update()
     
 def operator_update(op):
     global total_calculation
@@ -131,9 +132,11 @@ def evaluate():
     
     if result_on_screen:
         total_calculation = ''
-        
+    
+    convert_from = OPTIONS.get(clicked.get())
+    
     total_calculation += current_calculation    
-    current_calculation = baseEval_str(total_calculation, 16, 16)
+    current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
     
     result_on_screen = True
     #total_calculation = ""
@@ -178,27 +181,32 @@ def baseEval_str(saisie,convert_from,convert_to):
         raise
 
 def create_window():
-    global total_calc_label, calc_label
+    global total_calc_label, calc_label, clicked
     # Création de la fenêtre tkinter
     win = tk.Tk()
     win.geometry('375x650')
     win.title('Calculator GUI')
     win.configure(background='#e4e4e4')
-    win.resizable(0,0)
+    #win.resizable(0,0)
 
     calcframe = tk.Frame(win)
     calcframe.pack(expand=True, fill="both")
-
+    
     buttonframe = tk.Frame(win, height=221, bg = "#F5F5F5")
     buttonframe.pack(expand=True, fill="both")
 
+    clicked = tk.StringVar(calcframe)
+    clicked.set( "Decimal (10)" )
+    base1_menu = tk.OptionMenu(calcframe, clicked, *OPTIONS.keys(), command=lambda x: clear())
+    base1_menu.configure(font=("Arial",12), bg="#F8FAFF", fg = "#570861")
+    base1_menu.pack(fill="both")
 
     total_calc_label = tk.Label(calcframe, text=total_calculation, anchor=tk.E,fg="#570861", padx=40,font=("Arial",16))
     total_calc_label.pack(expand=True, fill="both")
 
     calc_label = tk.Label(calcframe, text=current_calculation, anchor=tk.E,fg="#570861", padx=40,font=("Arial",45))
     calc_label.pack(expand=True, fill="both")
-
+    
     digits_grid = {
         'F':(1,1), 'E':(1,2), 'D':(1,3), 'C':(1,4),
         'B':(2,1), 'A':(2,2), 9: (2,3), 8: (2,4),
@@ -249,7 +257,7 @@ def create_window():
         for c in range(1,6):   
             buttonframe.rowconfigure(r, weight=1)
             buttonframe.columnconfigure(c,weight=1)
-
+    
     win.mainloop()
 
 
