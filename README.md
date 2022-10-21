@@ -4,6 +4,12 @@ Multi-base calculator and conversion interface.
 Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 
 ---
+# some functionalities:
+- calculator functions for bases from binary to hexadecimal
+- addition and subtraction in any base
+- multiplication and division in any base
+- exponents and parenthesis
+---
 Examples:
 
 
