@@ -4,7 +4,9 @@ Multi-base calculator and conversion interface.
 Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 
 ---
-Example:
+Examples:
 
 
-<img width="375" alt="Screen Shot 2022-10-20 at 1 39 29 PM" src="https://user-images.githubusercontent.com/98288767/197053433-f7ef2669-8c68-4e02-8e6c-a80e371f1038.png">
+<img width="378" alt="Screen Shot 2022-10-20 at 11 19 58 PM" src="https://user-images.githubusercontent.com/98288767/197126348-d89fcfe8-1a38-4322-9c67-7c2cc5ad82c7.png">
+
+<img width="384" alt="Screen Shot 2022-10-20 at 11 20 25 PM" src="https://user-images.githubusercontent.com/98288767/197126403-59dba57f-f295-459f-ba92-ca6f1734bb5f.png">
