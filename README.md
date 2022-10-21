@@ -9,6 +9,8 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 - addition and subtraction in any base
 - multiplication and division in any base
 - exponents and parenthesis
+- direct number conversion
+- see help guide for more info!
 ---
 Examples:
 
