@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 total_calculation = ""
 current_calculation = ""
 result_on_screen = False
+prev_base = 10
 
 OPTIONS = {
     "Binary (2)" : 2,
@@ -81,6 +82,7 @@ def add_to_exp(value):
     global total_calculation
     global result_on_screen
     
+    #Only works if the value is smaller than the base
     if VALUES.find(str(value)) < OPTIONS.get(clicked.get()):
         if result_on_screen:
             current_calculation = ''
@@ -101,6 +103,8 @@ def operator_update(op):
     global current_calculation
     global result_on_screen
     
+    #if the result is on the screen then we clear the upper line
+    #and we replace it with the result
     if result_on_screen:
         total_calculation = ''
         result_on_screen = False
@@ -124,22 +128,49 @@ def clear():
     current_calculation = ""
     total_calculation = ""
     update()
+    
+def switch_base(x):
+    global current_calculation
+    global total_calculation
+    global prev_base
+    
+    new_base = OPTIONS.get(clicked.get())
+    
+    #if there is a current_calc then we convert it to the new base
+    if current_calculation:
+        current_calculation = numberToBase(current_calculation,prev_base,new_base)
+    prev_base = new_base
+    total_calculation = ""
+    
+    #edit the colors of the buttons to match if their input is correct
+    for i in range(len(ButtonL)):
+        if len(ButtonL)-i-1 < OPTIONS.get(clicked.get()):
+            background = 'white'
+        else:
+            background = "#FFEEEE"
+        
+        ButtonL[i].configure(bg= background)
+    
+    update()
 
 def evaluate():
     global total_calculation
     global current_calculation
     global result_on_screen
+    global prev_base
     
+    #if the result is on the screen then we clear the upper line
+    #and we replace it with the result
     if result_on_screen:
         total_calculation = ''
     
     convert_from = OPTIONS.get(clicked.get())
+    prev_base = convert_from
     
     total_calculation += current_calculation    
     current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
     
     result_on_screen = True
-    #total_calculation = ""
     update()
     return current_calculation
     
@@ -181,7 +212,7 @@ def baseEval_str(saisie,convert_from,convert_to):
         raise
 
 def create_window():
-    global total_calc_label, calc_label, clicked
+    global total_calc_label, calc_label, clicked, ButtonL
     # Création de la fenêtre tkinter
     win = tk.Tk()
     win.geometry('375x650')
@@ -197,7 +228,7 @@ def create_window():
 
     clicked = tk.StringVar(calcframe)
     clicked.set( "Decimal (10)" )
-    base1_menu = tk.OptionMenu(calcframe, clicked, *OPTIONS.keys(), command=lambda x: clear())
+    base1_menu = tk.OptionMenu(calcframe, clicked, *OPTIONS.keys(), command=lambda x = clicked: switch_base(x))
     base1_menu.configure(font=("Arial",12), bg="#F8FAFF", fg = "#570861")
     base1_menu.pack(fill="both")
 
@@ -213,11 +244,21 @@ def create_window():
         7: (3,1), 6: (3,2), 5: (3,3), 4:(3,4),
         3: (4,1), 2: (4,2), 1: (4,3), 0: (4,4)
         }
-
+    
+    #used to configure the colors of the buttons later on
+    ButtonL = []
+    
     for digit, gridval in digits_grid.items():
-        button = tk.Button(buttonframe, text=str(digit), bg= "white", fg = "#570861", font=("Arial", 24, "bold"),
+        if VALUES.find(str(digit)) < OPTIONS.get(clicked.get()):
+            background = 'white'
+        else:
+            background = "#FFEEEE"
+            
+        button = tk.Button(buttonframe, text=str(digit), bg= background, fg = "#570861", font=("Arial", 24, "bold"),
                            borderwidth=0, command=lambda x = digit: add_to_exp(x)) #i hate lambdas >:(
         button.grid(row=gridval[0], column=gridval[1], sticky=tk.NSEW)
+        
+        ButtonL.append(button)
 
     current_expression = "0"
     print(current_expression)
