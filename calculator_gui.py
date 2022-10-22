@@ -70,6 +70,21 @@ def numberToBase(num,fromB = 10,toB = 10):
     
     return result
 
+def stringToBase(saisie, convert_from = 10, convert_to = 10):
+    conv_saisie=''
+    temp = ''
+    for i in range(len(saisie)):
+        if saisie[i] not in OPERATIONS:
+            temp += saisie[i]
+        else:
+            if temp.isalnum():
+                conv_saisie += numberToBase(temp,convert_from,convert_to)
+            conv_saisie += saisie[i]
+            temp = ''
+    if temp:
+        conv_saisie += numberToBase(temp,convert_from,convert_to)
+    return conv_saisie
+
 def update():
     total_calc_label.config(text=total_calculation)
     calc_label.config(text=current_calculation)
@@ -139,15 +154,16 @@ def switch_base(x):
     #if there is a current_calc then we convert it to the new base
     if current_calculation:
         current_calculation = numberToBase(current_calculation,prev_base,new_base)
+    if total_calculation:
+        total_calculation = stringToBase(total_calculation,prev_base,new_base)
     prev_base = new_base
-    total_calculation = ""
     
     #edit the colors of the buttons to match if their input is correct
     for i in range(len(ButtonL)):
         if len(ButtonL)-i-1 < OPTIONS.get(clicked.get()):
             background = 'white'
         else:
-            background = "#FFEEEE"
+            background = "#FFE0E0"
         
         ButtonL[i].configure(bg= background)
     
@@ -174,7 +190,7 @@ def evaluate():
     update()
     return current_calculation
     
-def baseEval_str(saisie,convert_from,convert_to):
+def baseEval_str(saisie,convert_from = 10,convert_to = 10):
     ''' Takes an oppeartion formated as a string and calculates the result as a string
     
     Arguments:
@@ -187,18 +203,7 @@ def baseEval_str(saisie,convert_from,convert_to):
     '''
     try:
         #First, we parse saisie and we convert the numbers to decimal
-        conv_saisie=''
-        temp = ''
-        for i in range(len(saisie)):
-            if saisie[i] not in OPERATIONS:
-                temp += saisie[i]
-            else:
-                if temp.isalnum():
-                    conv_saisie += numberToBase(temp,convert_from)
-                conv_saisie += saisie[i]
-                temp = ''
-        if temp:
-            conv_saisie += numberToBase(temp,convert_from)
+        conv_saisie = stringToBase(saisie,convert_from)
         print('conv_saisie:',conv_saisie)
         #Calculate operation in decimal, put into 'resultat'
         resultat = round(eval(conv_saisie))
@@ -252,7 +257,7 @@ def create_window():
         if VALUES.find(str(digit)) < OPTIONS.get(clicked.get()):
             background = 'white'
         else:
-            background = "#FFEEEE"
+            background = "#FFE0E0"
             
         button = tk.Button(buttonframe, text=str(digit), bg= background, fg = "#570861", font=("Arial", 24, "bold"),
                            borderwidth=0, command=lambda x = digit: add_to_exp(x)) #i hate lambdas >:(
