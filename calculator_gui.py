@@ -71,6 +71,14 @@ def numberToBase(num,fromB = 10,toB = 10):
     return result
 
 def stringToBase(saisie, convert_from = 10, convert_to = 10):
+    '''Converts all the numbers in an operation inputed as a string from one base to another
+    Arguments:
+    > saisie -- string
+    > convert_from, base to convert from -- int [2,36]
+    > convert_to, base to convert to -- int [2,36]
+    returns:
+    - string
+    '''
     conv_saisie=''
     temp = ''
     for i in range(len(saisie)):
@@ -143,7 +151,16 @@ def clear():
     current_calculation = ""
     total_calculation = ""
     update()
-    
+
+def get_button_color(value):
+    if value < OPTIONS.get(clicked.get()):
+        background = 'white'
+        foreground = "#570861"
+    else:
+        background = "#FFE0E0"
+        foreground = "#FF5050"
+    return background, foreground
+
 def switch_base(x):
     global current_calculation
     global total_calculation
@@ -163,9 +180,11 @@ def switch_base(x):
         if len(ButtonL)-i-1 < OPTIONS.get(clicked.get()):
             background = 'white'
         else:
-            background = "#FFE0E0"
+            background = "#FFD0D0"
+            
+        background, foreground = get_button_color(len(ButtonL)-i-1)
         
-        ButtonL[i].configure(bg= background)
+        ButtonL[i].configure(bg= background, fg=foreground)
     
     update()
 
@@ -190,7 +209,7 @@ def evaluate():
     update()
     return current_calculation
     
-def baseEval_str(saisie,convert_from = 10,convert_to = 10):
+def baseEval_str(saisie,convert_from,convert_to):
     ''' Takes an oppeartion formated as a string and calculates the result as a string
     
     Arguments:
@@ -254,12 +273,9 @@ def create_window():
     ButtonL = []
     
     for digit, gridval in digits_grid.items():
-        if VALUES.find(str(digit)) < OPTIONS.get(clicked.get()):
-            background = 'white'
-        else:
-            background = "#FFE0E0"
+        background, foreground = get_button_color(VALUES.find(str(digit)))
             
-        button = tk.Button(buttonframe, text=str(digit), bg= background, fg = "#570861", font=("Arial", 24, "bold"),
+        button = tk.Button(buttonframe, text=str(digit), bg= background, fg = foreground, font=("Arial", 24, "bold"),
                            borderwidth=0, command=lambda x = digit: add_to_exp(x)) #i hate lambdas >:(
         button.grid(row=gridval[0], column=gridval[1], sticky=tk.NSEW)
         
