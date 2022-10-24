@@ -20,7 +20,7 @@ def ouvre_calculatrice():
 
 def ouvre_calculatrice2():
   #Ouvre le code python pour la calculatrice
-  Calculator_GUI.main()
+  Calculator_Gui.main()
     
   return
 
