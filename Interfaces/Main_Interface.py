@@ -2,7 +2,7 @@
 import tkinter as tk
 import BaseConverter_Interface
 import BaseCalc_Interface
-import Calculator_GUI
+import Calculator_Gui
 import BasePowers_Interface
 
 # Définition des fonctions 
