@@ -1,12 +1,11 @@
 # Design inspiré de https://www.youtube.com/watch?v=QZPv1y2znZo (seulement le design, fonctionnalité crée par nous même)
 import tkinter as tk
-from PIL import Image, ImageTk
 
 total_calculation = ""
 current_calculation = ""
 result_on_screen = False
-prev_base = 10
 
+#Dictionnaire des options pour les menus
 OPTIONS = {
     "Binary (2)" : 2,
     "Trinary (3)" : 3,
@@ -101,9 +100,7 @@ def update():
 
 
 def add_to_exp(value):
-    global current_calculation
-    global total_calculation
-    global result_on_screen
+    global current_calculation, total_calculation, result_on_screen
     
     #Only works if the value is smaller than the base
     if VALUES.find(str(value)) < OPTIONS.get(clicked.get()):
@@ -122,9 +119,7 @@ def add_to_exp(value):
         update()
     
 def operator_update(op):
-    global total_calculation
-    global current_calculation
-    global result_on_screen
+    global total_calculation, current_calculation, result_on_screen
     
     #if the result is on the screen then we clear the upper line
     #and we replace it with the result
@@ -162,9 +157,7 @@ def get_button_color(value):
     return background, foreground
 
 def switch_base(x):
-    global current_calculation
-    global total_calculation
-    global prev_base
+    global current_calculation, total_calculation, prev_base
     
     new_base = OPTIONS.get(clicked.get())
     
@@ -189,10 +182,7 @@ def switch_base(x):
     update()
 
 def evaluate():
-    global total_calculation
-    global current_calculation
-    global result_on_screen
-    global prev_base
+    global total_calculation, current_calculation, result_on_screen, prev_base
     
     #if the result is on the screen then we clear the upper line
     #and we replace it with the result
@@ -236,7 +226,7 @@ def baseEval_str(saisie,convert_from,convert_to):
         raise
 
 def create_window():
-    global total_calc_label, calc_label, clicked, ButtonL
+    global total_calc_label, calc_label, ButtonL, clicked, prev_base
     # Création de la fenêtre tkinter
     win = tk.Tk()
     win.geometry('375x650')
@@ -252,6 +242,8 @@ def create_window():
 
     clicked = tk.StringVar(calcframe)
     clicked.set( "Decimal (10)" )
+    prev_base = OPTIONS.get(clicked.get())
+    
     base1_menu = tk.OptionMenu(calcframe, clicked, *OPTIONS.keys(), command=lambda x = clicked: switch_base(x))
     base1_menu.configure(font=("Arial",12), bg="#F8FAFF", fg = "#570861")
     base1_menu.pack(fill="both")
