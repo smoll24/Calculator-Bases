@@ -140,7 +140,7 @@ def aide() :
     return
     
 def create_window():
-  global result_data, champSaisie, clicked, clicked2
+  global root, result_data, champSaisie, clicked, clicked2
   
   # Création de la fenêtre tkinter
   root = tk.Tk()
@@ -157,7 +157,7 @@ def create_window():
   bouton_lancer = tk.Button(fenetre, text='Calculer', command=calculate)
   bouton_lancer.grid(row=4, column=0, padx=6, pady=6, ipadx=5)
   
-  bouton_quitter = tk.Button(fenetre, text='Quitter', command=root.destroy)
+  bouton_quitter = tk.Button(fenetre, text='Quitter', command=quitter)
   bouton_quitter.grid(row=4, column=1, padx=6, pady=6, ipadx=5)
   
   bouton_aide = tk.Button(fenetre,text='?',command=aide)
@@ -194,9 +194,16 @@ def create_window():
   # Programme principal 
   fenetre.mainloop()    # Boucle d'attente des événements
 
+def quitter():
+    global root
+    try:
+        root.destroy()
+    except:
+        pass
 
 def main():
-  create_window()
+    quitter()
+    create_window()
 
 if __name__ == "__main__":
     main()
