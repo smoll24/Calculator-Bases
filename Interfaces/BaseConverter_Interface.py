@@ -1,3 +1,5 @@
+#BaseConverter_Interface.py
+###########################
 # Importation des modules utiles
 import tkinter as tk
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -105,7 +107,7 @@ def aide() :
 
 # Création de la fenêtre tkinter
 def create_window():
-  global result_data, champSaisie, clicked, clicked2, base1_label, base2_label, root, fenetre
+  global root, result_data, champSaisie, clicked, clicked2, base1_label, base2_label, root, fenetre
   
   root = tk.Tk()
   root.geometry('400x250')
@@ -118,7 +120,7 @@ def create_window():
   fenetre.configure(background='#e4e4e4')
   
   #CREATION DES BOUTONS
-  bouton_quitter = tk.Button(fenetre, text='Quitter', command=root.destroy)
+  bouton_quitter = tk.Button(fenetre, text='Quitter', command=quitter)
   bouton_quitter.grid(row=6, column=0, padx=6, pady=6, ipadx=5)
   
   bouton_convertir = tk.Button(fenetre, text='Convertir', command=convertBase)
@@ -175,9 +177,16 @@ def create_window():
   fenetre.mainloop()    # Boucle d'attente des événements
 
 
-
+def quitter():
+    global root
+    try:
+        root.destroy()
+    except:
+        pass
 
 def main():
-  create_window()
+    quitter()
+    create_window()
+
 if __name__ == "__main__":
     main()
