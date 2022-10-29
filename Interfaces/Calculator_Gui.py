@@ -1,3 +1,5 @@
+#Calculator_Gui.py
+###########################
 # Design inspiré de https://www.youtube.com/watch?v=QZPv1y2znZo (seulement le design, fonctionnalité crée par nous même)
 import tkinter as tk
 
@@ -84,11 +86,15 @@ def stringToBase(saisie, convert_from = 10, convert_to = 10):
         if saisie[i] not in OPERATIONS:
             temp += saisie[i]
         else:
-            if temp.isalnum():
+            if temp == 'NaN':
+                conv_saisie += 'NaN'
+            elif temp.isalnum():
                 conv_saisie += numberToBase(temp,convert_from,convert_to)
             conv_saisie += saisie[i]
             temp = ''
-    if temp:
+    if temp == 'NaN':
+        conv_saisie += 'NaN'
+    elif temp:
         conv_saisie += numberToBase(temp,convert_from,convert_to)
     return conv_saisie
 
@@ -141,8 +147,7 @@ def operator_update(op):
     update()
     
 def clear():
-    global current_calculation
-    global total_calculation
+    global current_calculation, total_calculation
     current_calculation = ""
     total_calculation = ""
     update()
@@ -163,7 +168,7 @@ def switch_base(x):
     
     #if there is a current_calc then we convert it to the new base
     if current_calculation:
-        current_calculation = numberToBase(current_calculation,prev_base,new_base)
+        current_calculation = stringToBase(current_calculation,prev_base,new_base)
     if total_calculation:
         total_calculation = stringToBase(total_calculation,prev_base,new_base)
     prev_base = new_base
@@ -192,8 +197,23 @@ def evaluate():
     convert_from = OPTIONS.get(clicked.get())
     prev_base = convert_from
     
-    total_calculation += current_calculation    
-    current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
+    total_calculation += current_calculation
+    
+    #Correct operation signs and parenthesies
+    if total_calculation[-1] in '+-':
+        total_calculation += '0'
+    elif total_calculation[-1] in '/*%':
+        total_calculation += '1'
+    
+    if total_calculation.count('(') > total_calculation.count(')'):
+        total_calculation += ')'
+    elif total_calculation.count('(') < total_calculation.count(')'):
+        total_calculation = '(' + total_calculation
+    
+    try:
+        current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
+    except Exception as e:
+        current_calculation = 'NaN' #e
     
     result_on_screen = True
     update()
@@ -226,7 +246,8 @@ def baseEval_str(saisie,convert_from,convert_to):
         raise
 
 def create_window():
-    global total_calc_label, calc_label, ButtonL, clicked, prev_base
+    global win, total_calc_label, calc_label, ButtonL, clicked, prev_base
+
     # Création de la fenêtre tkinter
     win = tk.Tk()
     win.geometry('375x650')
@@ -314,8 +335,16 @@ def create_window():
     
     win.mainloop()
 
+def quitter():
+    global win
+    try:
+        win.destroy()
+    except:
+        pass
 
 def main():
-  create_window()
+    quitter()
+    create_window()
+    
 if __name__ == "__main__":
     main()
