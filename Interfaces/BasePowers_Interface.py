@@ -1,3 +1,5 @@
+#BasePowers_Interface.py
+###########################
 # Importation des modules utiles
 import tkinter as tk
 
@@ -110,6 +112,7 @@ def aide() :
 # Création de la fenêtre tkinter
 
 def create_window():
+  global root
   global power_1,power_2,power_3,power_4,power_5,power_6,power_7,power_8,power_9,power_10
   global clicked,clicked2
   
@@ -127,7 +130,7 @@ def create_window():
   bouton_lancer = tk.Button(fenetre, text='Lancer', command=initialize, anchor=tk.CENTER)
   bouton_lancer.grid(row=3, column=0, padx=6, pady=6, ipadx=5, columnspan=2)
   
-  bouton_quitter = tk.Button(fenetre, text='Quitter', command=root.destroy)
+  bouton_quitter = tk.Button(fenetre, text='Quitter', command=quitter)
   bouton_quitter.grid(row=14, column=0, padx=6, pady=6, ipadx=5, columnspan=2)
   
   bouton_aide = tk.Button(fenetre,text='?',command=aide)
@@ -190,8 +193,16 @@ def create_window():
   # Programme principal 
   fenetre.mainloop()    # Boucle d'attente des événements
 
+def quitter():
+    global root
+    try:
+        root.destroy()
+    except:
+        pass
 
 def main():
-  create_window()
+    quitter()
+    create_window()
+    
 if __name__ == "__main__":
     main()
