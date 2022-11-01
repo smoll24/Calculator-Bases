@@ -157,8 +157,8 @@ def get_button_color(value):
         background = 'white'
         foreground = "#570861"
     else:
-        background = "#FFE0E0"
-        foreground = "#FF5050"
+        background = 'white'#"#FFE0E0"
+        foreground = '#C0C0C0'#"#FF5050"
     return background, foreground
 
 def switch_base(x):
@@ -205,10 +205,12 @@ def evaluate():
     elif total_calculation[-1] in '/*%':
         total_calculation += '1'
     
-    if total_calculation.count('(') > total_calculation.count(')'):
-        total_calculation += ')'
-    elif total_calculation.count('(') < total_calculation.count(')'):
-        total_calculation = '(' + total_calculation
+    po = total_calculation.count('(')
+    pc = total_calculation.count(')')
+    if po > pc:
+        total_calculation += ')' * (po-pc)
+    elif pc > po:
+        total_calculation = '(' * (pc-po) + total_calculation
     
     try:
         current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
@@ -276,10 +278,10 @@ def create_window():
     calc_label.pack(expand=True, fill="both")
     
     digits_grid = {
-        'F':(1,1), 'E':(1,2), 'D':(1,3), 'C':(1,4),
-        'B':(2,1), 'A':(2,2), 9: (2,3), 8: (2,4),
-        7: (3,1), 6: (3,2), 5: (3,3), 4:(3,4),
-        3: (4,1), 2: (4,2), 1: (4,3), 0: (4,4)
+        'C':(1,1), 'D':(1,2), 'E':(1,3), 'F':(1,4),
+        8:(2,1), 9:(2,2), 'A': (2,3), 'B': (2,4),
+        4: (3,1), 5: (3,2), 6: (3,3), 7:(3,4),
+        0: (4,1), 1: (4,2), 2: (4,3), 3: (4,4)
         }
     
     #used to configure the colors of the buttons later on
