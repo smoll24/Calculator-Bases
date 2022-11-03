@@ -21,11 +21,11 @@ OPTIONS = {
 }
 
 #Characteres qui peuvent etres saisis par l'utilisateur
-CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-/*%()'
+CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-/*%().'
 
 #All digits, characters used to represent values
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-OPERATIONS = '+-/*%()'
+OPERATIONS = '+-/*%().'
 
 # Définition des fonctions
 def numberToBase(num,fromB = 10,toB = 10):
@@ -103,9 +103,21 @@ def baseEval_str(saisie,convert_from,convert_to):
         conv_saisie = stringToBase(saisie,convert_from)
         print('conv_saisie:',conv_saisie)
         #Calculate operation in decimal, put into 'resultat'
-        resultat = round(eval(conv_saisie))
+        resultat = str(eval(conv_saisie))
+        
+        #Checks if resultat is a float and rounds, then separates into 2
+        x = resultat.find('.')
+        if x >= 0:
+            resultat = resultat[:x+2]
+            resultat2 = resultat[x+1:]
+            resultat = resultat[:x]
+        
         #convert result to wanted base
-        resultat = numberToBase(resultat,10,convert_to)
+        if x >= 0:
+            resultat = numberToBase(resultat,10,convert_to)+'.'+numberToBase(resultat2,10,convert_to)
+        else:
+            resultat = numberToBase(resultat,10,convert_to)
+        
         print(resultat)
         return(resultat)
     
