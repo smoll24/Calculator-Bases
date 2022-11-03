@@ -74,6 +74,15 @@ def convertBase() :
     #Gets entry from user
     saisie = champSaisie.get()
     
+    #Checks if number entered is float
+
+    x = saisie.find('.')
+    if x >= 0:
+        saisie2 = saisie[x+1:]
+        print (saisie2)
+        saisie = saisie[:x]
+        print(saisie)
+    
     #Gets the two bases for conversion from user
     convert_from = OPTIONS.get(clicked.get())
     convert_to = OPTIONS.get(clicked2.get())
@@ -84,7 +93,11 @@ def convertBase() :
     
     try:
         #Checks the entry is a valid number that can be converted
-        result = numberToBase(saisie,convert_from,convert_to)
+        if x >= 0:
+            result = numberToBase(saisie,convert_from,convert_to)+'.'+numberToBase(saisie2,convert_from,convert_to)
+        else:
+            result = numberToBase(saisie,convert_from,convert_to)
+        
         #Changes label box to show result
         result_data.config(text=result)
     except:
