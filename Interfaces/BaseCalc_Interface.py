@@ -105,15 +105,78 @@ def baseEval_str(saisie,convert_from,convert_to):
         #Calculate operation in decimal, put into 'resultat'
         resultat = str(eval(conv_saisie))
         
-        #convert result to wanted base
+        #Checks if resultat is a float and if so converts floating part
+        resFlot = ''
+        x = resultat.find('.')
+        if x >= 0:
+            resultat += '0'
+            resultat = resultat[:x+3]
+            saisieFlot = resultat[x+1:]
+            resultat = resultat[:x]
+            
+            if convert_from == 10:
+                resFlot = '.' + decToBase(saisieFlot,convert_to)
+            else:
+                decRes = baseToDec(saisieFlot,convert_from)
+                resFlot = '.' + decToBase(decRes,convert_to)
+        
         resultat = numberToBase(resultat,10,convert_to)
         
-        print(resultat)
-        return(resultat)
+        print(resultat,resFlot)
+        return resultat,resFlot
     
     except Exception as e:
         print(e)
         raise
+
+def decToBase(saisieFlot,convert_to):
+    """Convertit la partie flottante d'un nombre decimal en la base choisie
+
+    Arguments:
+    saisieFlot -- int, la partie flottante du nombre saisie
+    convert_to -- int, la base dans laquelle convertir saisieFlot
+    
+    Return :
+    int
+    """
+    
+    #Define variables
+    i=0
+    res = ''
+    temp = 0.1
+    num = float(saisieFlot)/100
+    
+    #Calculation loop
+    while (i < 10) and round(temp,2)!=int(temp):
+        temp = float(num*convert_to)
+        res += VALUES[int(temp)]
+        num = temp - int(temp)
+        i += 1
+    return res
+
+def baseToDec(saisieFlot,convert_from):
+    """Convertit la partie flottante d'un nombre dans la base choisie en decimal
+
+    Arguments:
+    saisieFlot -- int, la partie flottante du nombre saisie
+    convert_from -- int, la base dans laquelle est saisieFlot
+    
+    Return :
+    int
+    """
+    
+    #Define variables
+    i=0
+    res = 0
+    temp = 0.1
+    num = float(saisieFlot)/100
+    
+    #Calculation loop
+    for i in range(len(saisieFlot)):
+        res += float(int(saisieFlot[i])*(convert_from**(-(i+1))))
+    
+    res = str(res)
+    return (res[2:])
 
 def calculate() :
     
@@ -127,13 +190,13 @@ def calculate() :
         for i in range(len(saisie)):
             assert CHARS.find(saisie[i].upper()) > -1
         #calculate result of operation
-        calc_result = baseEval_str(saisie,convert_from,convert_to)
+        calc_result,resFlot = baseEval_str(saisie,convert_from,convert_to)
     except Exception as e:
         print(e)
         result_data.config(text='Enter valid operation')
         
     else:
-        result_data.config(text=calc_result)
+        result_data.config(text=calc_result+resFlot)
         
 def aide() :
     
