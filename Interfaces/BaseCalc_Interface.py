@@ -108,13 +108,36 @@ def baseEval_str(saisie,convert_from,convert_to):
         #Checks if resultat is a float and rounds, then separates into 2
         x = resultat.find('.')
         if x >= 0:
-            resultat = resultat[:x+2]
+            resultat += '0'
+            resultat = resultat[:x+3]
             resultat2 = resultat[x+1:]
             resultat = resultat[:x]
+            
+            #Calculate decimal part in wanted base
+            #Define variables
+            if convert_to <= 3:
+                i=0
+                res = ''
+                temp = 0
+                num = float(resultat2)/100
+                #Calculation loop
+                while (i < 10) and round(temp,2)!=1.00:
+                    temp = float(num*int(convert_to))
+                    strTemp = str(temp)
+                    res += strTemp[0]
+                    if temp > 1:
+                        temp -= 1
+                    num = temp
+                    i += 1
+            else:
+                res = str(((int(resultat2)/100)*int(convert_to))*100)
+                res = res[:res.find('.')]
+                while res[-1] == '0':
+                    res = res[:-1]
         
         #convert result to wanted base
         if x >= 0:
-            resultat = numberToBase(resultat,10,convert_to)+'.'+numberToBase(resultat2,10,convert_to)
+            resultat = numberToBase(resultat,10,convert_to)+'.'+res
         else:
             resultat = numberToBase(resultat,10,convert_to)
         
@@ -219,3 +242,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
