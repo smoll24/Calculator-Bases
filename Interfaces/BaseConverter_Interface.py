@@ -128,13 +128,13 @@ def convertBase() :
     base1_label.config(text=convert_from)
     base2_label.config(text=convert_to)
     
-    res = ''
+    resFlot = ''
     x = saisie.find('.')
     if x >= 0:
         saisie += '0'
         saisie = saisie[:x+3]
         saisieFlot = saisie[x+1:]
-        saisieInt = saisie[:x]
+        saisie = saisie[:x]
         
         if convert_from == 10:
             resFlot = '.' + decToBase(saisieFlot,convert_to)
@@ -144,7 +144,7 @@ def convertBase() :
     
     try:
         #Checks the entry is a valid number that can be converted
-        result = numberToBase(saisieInt,convert_from,convert_to) + resFlot
+        result = numberToBase(saisie,convert_from,convert_to) + resFlot
         
         #Changes label box to show result
         result_data.config(text=result)
@@ -238,10 +238,16 @@ def create_window():
   # Programme principal 
   fenetre.mainloop()    # Boucle d'attente des événements
 
-
-
+def quitter():
+    global root
+    try:
+        root.destroy()
+    except:
+        pass
 
 def main():
-  create_window()
+    quitter()
+    create_window()
+
 if __name__ == "__main__":
     main()
