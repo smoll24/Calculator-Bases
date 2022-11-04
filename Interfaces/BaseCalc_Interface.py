@@ -180,21 +180,11 @@ def baseEval_str(saisie,convert_from,convert_to):
         #Calculate operation in decimal, put into 'resultat'
         resultat = str(eval(conv_saisie))
         
-        #Checks if resultat is a float and if so converts floating part
-        resFlot = ''
-        x = resultat.find('.')
-        if x >= 0:
-            resultat += '0'
-            resultat = resultat[:x+3]
-            saisieFlot = resultat[x+1:]
-            resultat = resultat[:x]
-            
-            resFlot = '.' + decToBase(saisieFlot,convert_to)
+        #Convert to base
+        resultat = convertReel(resultat,10,convert_to)
         
-        resultat = numberToBase(resultat,10,convert_to)
-        
-        print(resultat+resFlot)
-        return resultat,resFlot
+        print(resultat)
+        return resultat
     
     except Exception as e:
         print(e)
@@ -212,13 +202,13 @@ def calculate() :
         for i in range(len(saisie)):
             assert CHARS.find(saisie[i]) > -1
         #calculate result of operation
-        calc_result,resFlot = baseEval_str(saisie,convert_from,convert_to)
+        calc_result = baseEval_str(saisie,convert_from,convert_to)
     except Exception as e:
         print(e)
         result_data.config(text='Enter valid operation')
         
     else:
-        result_data.config(text=calc_result+resFlot)
+        result_data.config(text=calc_result)
         
 def aide() :
     
