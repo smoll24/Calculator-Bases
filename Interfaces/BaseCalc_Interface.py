@@ -116,7 +116,7 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
     #We make sure that the bases are integers and num is a string
     convert_from = int(convert_from)
     convert_to = int(convert_to)
-    num = str(saisie)
+    saisie = str(saisie)
     
     resFlot = ''
     x = saisie.find('.')
