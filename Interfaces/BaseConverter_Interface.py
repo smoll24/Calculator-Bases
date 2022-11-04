@@ -147,8 +147,16 @@ def convertBase() :
         #Convert the number
         result = numberToBase(saisie,convert_from,convert_to) + resFlot
         
-        #Changes label box to show result
-        result_data.config(text=result)
+        #Checks if complement a deux is applicable
+        if convert_to == 2 and result[0] == '-':
+            if_comp = complement()
+            if if_comp == 'yes':  
+                result_data.config(text='no')
+            else:
+                result_data.config(text=result)
+        else:
+            result_data.config(text=result)
+        
     except Exception as e:
         result_data.config(text='Enter valid operation')
         print (e)
@@ -167,6 +175,12 @@ def aide() :
     aide_label.pack()
         
     return
+
+def complement():
+    complement = messagebox.askquestion("Complement a deux",
+                           "Votre resultat est un nombre negatif binaire.\nLe convertir en complement a deux?",
+                           icon = 'info')
+    return complement
 
 # Création de la fenêtre tkinter
 def create_window():
