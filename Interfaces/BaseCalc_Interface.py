@@ -1,3 +1,5 @@
+#BaseCalc_Interface.py
+###########################
 # Importation des modules utiles
 import tkinter as tk
 
@@ -21,7 +23,7 @@ OPTIONS = {
 }
 
 #Characteres qui peuvent etres saisis par l'utilisateur
-CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-/*%().'
+CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-/*%(). '
 
 #All digits, characters used to represent values
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -64,6 +66,78 @@ def numberToBase(num,fromB = 10,toB = 10):
           result = '-' + result
     return result
 
+def decToBase(saisieFlot,convert_to):
+    """Convertit la partie flottante d'un nombre decimal en la base choisie
+
+    Arguments:
+    saisieFlot -- int, la partie flottante du nombre saisie
+    convert_to -- int, la base dans laquelle convertir saisieFlot
+    
+    Return :
+    int
+    """
+    
+    #Define variables
+    i=0
+    res = ''
+    temp = 0.1
+    saisieFlot = (saisieFlot + '00')[:2] # on veut que deux valeur
+    num = float(saisieFlot)/100
+    
+    #Calculation loop
+    while (i < 10) and round(temp,2)!=int(temp):
+        temp = float(num*convert_to)
+        res += VALUES[int(temp)]
+        num = temp - int(temp)
+        i += 1
+    return res
+
+def baseToDec(saisieFlot,convert_from):
+    """Convertit la partie flottante d'un nombre dans la base choisie en decimal
+
+    Arguments:
+    saisieFlot -- int, la partie flottante du nombre saisie
+    convert_from -- int, la base dans laquelle est saisieFlot
+    
+    Return :
+    int
+    """
+    res = 0
+    #Calculation loop
+    for i in range(len(saisieFlot)):
+        value = VALUES.find(saisieFlot[i])
+        assert value < convert_from, "invalid literal for baseToDec() with base %d: '%d'"%(convert_from,value)
+        res += float(VALUES.find(saisieFlot[i])*(convert_from**(-(i+1))))
+    
+    res = str(res)
+    return (res[2:])
+
+def convertReel(saisie, convert_from = 10, convert_to = 10):
+    #We make sure that the bases are integers and num is a string
+    convert_from = int(convert_from)
+    convert_to = int(convert_to)
+    num = str(saisie)
+    
+    resFlot = ''
+    x = saisie.find('.')
+    if x >= 0: #si il y a une virgule
+        saisie += '0'
+        saisie = saisie[:x+3] #arrondi a deux chiffres apres la virgule
+        saisieFlot = saisie[x+1:]
+        saisie = saisie[:x]
+    
+    #Convert the decimal
+    if x >= 0:
+        if convert_from == 10:
+            resFlot = '.' + decToBase(saisieFlot,convert_to)
+        else:
+            decRes = baseToDec(saisieFlot,convert_from)
+            resFlot = '.' + decToBase(decRes,convert_to)
+        
+    #Convert the number
+    result = numberToBase(saisie,convert_from,convert_to) + resFlot
+    return result
+
 def stringToBase(saisie, convert_from = 10, convert_to = 10):
     '''Converts all the numbers in an operation inputed as a string from one base to another
     Arguments:
@@ -73,18 +147,19 @@ def stringToBase(saisie, convert_from = 10, convert_to = 10):
     returns:
     - string
     '''
+    saisie = saisie.replace(' ','')
     conv_saisie=''
     temp = ''
     for i in range(len(saisie)):
-        if saisie[i] not in OPERATIONS:
+        if saisie[i] not in OPERATIONS or saisie[i] == '.':
             temp += saisie[i]
         else:
-            if temp.isalnum():
-                conv_saisie += numberToBase(temp,convert_from,convert_to)
+            if temp != '':
+                conv_saisie += convertReel(temp,convert_from)
             conv_saisie += saisie[i]
             temp = ''
     if temp:
-        conv_saisie += numberToBase(temp,convert_from,convert_to)
+        conv_saisie += convertReel(temp,convert_from)
     return conv_saisie
 
 def baseEval_str(saisie,convert_from,convert_to):
@@ -114,69 +189,16 @@ def baseEval_str(saisie,convert_from,convert_to):
             saisieFlot = resultat[x+1:]
             resultat = resultat[:x]
             
-            if convert_from == 10:
-                resFlot = '.' + decToBase(saisieFlot,convert_to)
-            else:
-                decRes = baseToDec(saisieFlot,convert_from)
-                resFlot = '.' + decToBase(decRes,convert_to)
+            resFlot = '.' + decToBase(saisieFlot,convert_to)
         
         resultat = numberToBase(resultat,10,convert_to)
         
-        print(resultat,resFlot)
+        print(resultat+resFlot)
         return resultat,resFlot
     
     except Exception as e:
         print(e)
         raise
-
-def decToBase(saisieFlot,convert_to):
-    """Convertit la partie flottante d'un nombre decimal en la base choisie
-
-    Arguments:
-    saisieFlot -- int, la partie flottante du nombre saisie
-    convert_to -- int, la base dans laquelle convertir saisieFlot
-    
-    Return :
-    int
-    """
-    
-    #Define variables
-    i=0
-    res = ''
-    temp = 0.1
-    num = float(saisieFlot)/100
-    
-    #Calculation loop
-    while (i < 10) and round(temp,2)!=int(temp):
-        temp = float(num*convert_to)
-        res += VALUES[int(temp)]
-        num = temp - int(temp)
-        i += 1
-    return res
-
-def baseToDec(saisieFlot,convert_from):
-    """Convertit la partie flottante d'un nombre dans la base choisie en decimal
-
-    Arguments:
-    saisieFlot -- int, la partie flottante du nombre saisie
-    convert_from -- int, la base dans laquelle est saisieFlot
-    
-    Return :
-    int
-    """
-    
-    #Define variables
-    i=0
-    res = 0
-    temp = 0.1
-    num = float(saisieFlot)/100
-    
-    #Calculation loop
-    for i in range(len(saisieFlot)):
-        res += float(int(saisieFlot[i])*(convert_from**(-(i+1))))
-    
-    res = str(res)
-    return (res[2:])
 
 def calculate() :
     
@@ -188,7 +210,7 @@ def calculate() :
     try:
         #Check that inputed operation is valid
         for i in range(len(saisie)):
-            assert CHARS.find(saisie[i].upper()) > -1
+            assert CHARS.find(saisie[i]) > -1
         #calculate result of operation
         calc_result,resFlot = baseEval_str(saisie,convert_from,convert_to)
     except Exception as e:
@@ -272,4 +294,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
