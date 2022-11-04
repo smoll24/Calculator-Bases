@@ -1,5 +1,3 @@
-#BaseConverter_Interface.py
-###########################
 # Importation des modules utiles
 import tkinter as tk
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -23,7 +21,6 @@ OPTIONS = {
     "Hexadecimal (16)" : 16
 }
 
-# Définition des fonctions
 def numberToBase(num,fromB = 10,toB = 10):
     '''Converts a number inputed as a string from one base to another
     Arguments:
@@ -54,12 +51,61 @@ def numberToBase(num,fromB = 10,toB = 10):
           num = abs(num)
           negative = True
       while num > 0:
-          result = VALUES[num%toB] + result
+          result = VALUES[num%toB].upper() + result
           num //= toB
       if negative:
           result = '-' + result
     
     return result
+
+def decToBase(saisieFlot,convert_to):
+    """Convertit la partie flottante d'un nombre decimal en la base choisie
+
+    Arguments:
+    saisieFlot -- int, la partie flottante du nombre saisie
+    convert_to -- int, la base dans laquelle convertir saisieFlot
+    
+    Return :
+    int
+    """
+    
+    #Define variables
+    i=0
+    res = ''
+    temp = 0.1
+    num = float(saisieFlot)/100
+    
+    #Calculation loop
+    while (i < 10) and round(temp,2)!=int(temp):
+        temp = float(num*convert_to)
+        res += VALUES[int(temp)]
+        num = temp - int(temp)
+        i += 1
+    return res
+
+def baseToDec(saisieFlot,convert_from):
+    """Convertit la partie flottante d'un nombre dans la base choisie en decimal
+
+    Arguments:
+    saisieFlot -- int, la partie flottante du nombre saisie
+    convert_from -- int, la base dans laquelle est saisieFlot
+    
+    Return :
+    int
+    """
+    
+    #Define variables
+    i=0
+    res = 0
+    temp = 0.1
+    num = float(saisieFlot)/100
+    
+    #Calculation loop
+    for i in range(len(saisieFlot)):
+        res += float(int(saisieFlot[i])*(convert_from**(-(i+1))))
+    
+    res = str(res)
+    return (res[2:])
 
 def convertBase() :
     """Affiche la conversion de la base
@@ -74,15 +120,6 @@ def convertBase() :
     #Gets entry from user
     saisie = champSaisie.get()
     
-    #Checks if number entered is float
-
-    x = saisie.find('.')
-    if x >= 0:
-        saisie2 = saisie[x+1:]
-        print (saisie2)
-        saisie = saisie[:x]
-        print(saisie)
-    
     #Gets the two bases for conversion from user
     convert_from = OPTIONS.get(clicked.get())
     convert_to = OPTIONS.get(clicked2.get())
@@ -91,23 +128,35 @@ def convertBase() :
     base1_label.config(text=convert_from)
     base2_label.config(text=convert_to)
     
+    res = ''
+    x = saisie.find('.')
+    if x >= 0:
+        saisie += '0'
+        saisie = saisie[:x+3]
+        saisieFlot = saisie[x+1:]
+        saisieInt = saisie[:x]
+        
+        if convert_from == 10:
+            resFlot = '.' + decToBase(saisieFlot,convert_to)
+        else:
+            decRes = baseToDec(saisieFlot,convert_from)
+            resFlot = '.' + decToBase(decRes,convert_to)
+    
     try:
         #Checks the entry is a valid number that can be converted
-        if x >= 0:
-            result = numberToBase(saisie,convert_from,convert_to)+'.'+numberToBase(saisie2,convert_from,convert_to)
-        else:
-            result = numberToBase(saisie,convert_from,convert_to)
+        result = numberToBase(saisieInt,convert_from,convert_to) + resFlot
         
         #Changes label box to show result
         result_data.config(text=result)
-    except:
-        result_data.config(text='Enter valid number')
+    except Exception as e:
+        result_data.config(text='Enter valid operation')
+        print (e)
     
     return
 
 def aide() :
     
-    aide_txt = "Convertisseur de Base\n\nFonction\n\nCe programme permet à l'utilisateur d'entrer un nombre dans\nn'importe quelle base (de 2 à 16) et de le convertir dans une autre base.\n\nUtilisation\n\nL'utilisateur doit d'abord choisir la base dans laquelle se trouve le\nnombre saisi et la base vers laquelle il veut convertir le nombre.\nEnsuite, l'utilisateur doit saisir le nombre qu'il souhaite convertir et\n appuyer sur le bouton « Convertir » pour effectuer le calcul.\n\nRemarques\n\nLa zone de saisie ne fonctionne qu'avec les caractères possible.\ndans la base choisie, et renvoie une erreur lorsque ce n'est pas le cas.\n"
+    aide_txt = "..."
     
     popup = tk.Toplevel(root)
     popup.geometry('450x320')
@@ -120,7 +169,7 @@ def aide() :
 
 # Création de la fenêtre tkinter
 def create_window():
-  global root, result_data, champSaisie, clicked, clicked2, base1_label, base2_label, root, fenetre
+  global result_data, champSaisie, clicked, clicked2, base1_label, base2_label, root, fenetre
   
   root = tk.Tk()
   root.geometry('400x250')
@@ -133,7 +182,7 @@ def create_window():
   fenetre.configure(background='#e4e4e4')
   
   #CREATION DES BOUTONS
-  bouton_quitter = tk.Button(fenetre, text='Quitter', command=quitter)
+  bouton_quitter = tk.Button(fenetre, text='Quitter', command=root.destroy)
   bouton_quitter.grid(row=6, column=0, padx=6, pady=6, ipadx=5)
   
   bouton_convertir = tk.Button(fenetre, text='Convertir', command=convertBase)
@@ -155,7 +204,7 @@ def create_window():
   enter_label = tk.Label(fenetre, text='Saisis', bg='#e4e4e4')
   enter_label.grid(row=3, column=0)
   
-  result_label = tk.Label(fenetre, text='Resultat', bg='#e4e4e4')
+  result_label = tk.Label(fenetre, text='saisie', bg='#e4e4e4')
   result_label.grid(row=5, column=0)
   
   base1_label = tk.Label(fenetre, text='N/A', bg='#e4e4e4')
@@ -190,16 +239,9 @@ def create_window():
   fenetre.mainloop()    # Boucle d'attente des événements
 
 
-def quitter():
-    global root
-    try:
-        root.destroy()
-    except:
-        pass
+
 
 def main():
-    quitter()
-    create_window()
-
+  create_window()
 if __name__ == "__main__":
     main()
