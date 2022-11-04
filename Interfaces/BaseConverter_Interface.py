@@ -1,3 +1,5 @@
+#BaseConverter_Interface.py
+###########################
 # Importation des modules utiles
 import tkinter as tk
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -51,7 +53,7 @@ def numberToBase(num,fromB = 10,toB = 10):
           num = abs(num)
           negative = True
       while num > 0:
-          result = VALUES[num%toB].upper() + result
+          result = VALUES[num%toB] + result
           num //= toB
       if negative:
           result = '-' + result
@@ -130,9 +132,9 @@ def convertBase() :
     
     resFlot = ''
     x = saisie.find('.')
-    if x >= 0:
+    if x >= 0: #si il y a une virgule
         saisie += '0'
-        saisie = saisie[:x+3]
+        saisie = saisie[:x+3] #arrondi a deux chiffres apres la virgule
         saisieFlot = saisie[x+1:]
         saisie = saisie[:x]
         
