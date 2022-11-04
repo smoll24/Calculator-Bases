@@ -105,36 +105,8 @@ def baseEval_str(saisie,convert_from,convert_to):
         #Calculate operation in decimal, put into 'resultat'
         resultat = str(eval(conv_saisie))
         
-        #Checks if resultat is a float and rounds, then separates into 2
-        x = resultat.find('.')
-        if x >= 0:
-            resultat += '0'
-            resultat = resultat[:x+3]
-            resultat2 = resultat[x+1:]
-            resultat = resultat[:x]
-            
-            #Calculate decimal part in wanted base
-            #Define variables
-            i=0
-            res = ''
-            temp = 0.1
-            num = float(resultat2)/100
-            #Calculation loop
-            while (i < 10) and round(temp,2)!=int(temp):
-                temp = float(num*int(convert_to))
-                strTemp = str(temp)
-                res += strTemp[0]
-                if temp > (convert_to-1):
-                    temp -= (convert_to-1)
-                num = temp
-                i += 1
-                print(temp,round(temp,2))
-        
         #convert result to wanted base
-        if x >= 0:
-            resultat = numberToBase(resultat,10,convert_to)+'.'+res
-        else:
-            resultat = numberToBase(resultat,10,convert_to)
+        resultat = numberToBase(resultat,10,convert_to)
         
         print(resultat)
         return(resultat)
