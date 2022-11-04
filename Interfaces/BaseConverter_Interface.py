@@ -2,6 +2,7 @@
 ###########################
 # Importation des modules utiles
 import tkinter as tk
+from tkinter import messagebox
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 #Dictionnaire des options pour les menus
