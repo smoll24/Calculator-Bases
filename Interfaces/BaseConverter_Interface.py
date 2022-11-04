@@ -75,6 +75,7 @@ def decToBase(saisieFlot,convert_to):
     i=0
     res = ''
     temp = 0.1
+    saisieFlot = (saisieFlot + '00')[:2] # on veut que deux valeur
     num = float(saisieFlot)/100
     
     #Calculation loop
@@ -95,16 +96,12 @@ def baseToDec(saisieFlot,convert_from):
     Return :
     int
     """
-    
-    #Define variables
-    i=0
     res = 0
-    temp = 0.1
-    num = float(saisieFlot)/100
-    
     #Calculation loop
     for i in range(len(saisieFlot)):
-        res += float(int(saisieFlot[i])*(convert_from**(-(i+1))))
+        value = VALUES.find(saisieFlot[i])
+        assert value < convert_from, "invalid literal for baseToDec() with base %d: '%d'"%(convert_from,value)
+        res += float(VALUES.find(saisieFlot[i])*(convert_from**(-(i+1))))
     
     res = str(res)
     return (res[2:])
@@ -137,15 +134,17 @@ def convertBase() :
         saisie = saisie[:x+3] #arrondi a deux chiffres apres la virgule
         saisieFlot = saisie[x+1:]
         saisie = saisie[:x]
-        
-        if convert_from == 10:
-            resFlot = '.' + decToBase(saisieFlot,convert_to)
-        else:
-            decRes = baseToDec(saisieFlot,convert_from)
-            resFlot = '.' + decToBase(decRes,convert_to)
     
     try:
-        #Checks the entry is a valid number that can be converted
+        #Convert the decimal
+        if x >= 0:
+            if convert_from == 10:
+                resFlot = '.' + decToBase(saisieFlot,convert_to)
+            else:
+                decRes = baseToDec(saisieFlot,convert_from)
+                resFlot = '.' + decToBase(decRes,convert_to)
+        
+        #Convert the number
         result = numberToBase(saisie,convert_from,convert_to) + resFlot
         
         #Changes label box to show result
