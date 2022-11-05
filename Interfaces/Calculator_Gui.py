@@ -7,7 +7,7 @@ total_calculation = ""
 current_calculation = ""
 result_on_screen = False
 
-#Dictionnaire des options pour les menus
+#Dictionnaire des options pour le menu
 OPTIONS = {
     "Binary (2)" : 2,
     "Trinary (3)" : 3,
@@ -145,7 +145,68 @@ def operator_update(op):
         total_calculation = op
     current_calculation=""
     update()
+
+def baseEval_str(saisie,convert_from,convert_to):
+    ''' Takes an oppeartion formated as a string and calculates the result as a string
     
+    Arguments:
+    > saisie -- str (operation in original base)
+    > convert_from -- int (base to convert from)
+    > convert_to -- int (base to convert to)
+    
+    returns:
+    - string (result of operation in wanted base)
+    '''
+    try:
+        #First, we parse saisie and we convert the numbers to decimal
+        conv_saisie = stringToBase(saisie,convert_from)
+        print('conv_saisie:',conv_saisie)
+        #Calculate operation in decimal, put into 'resultat'
+        resultat = round(eval(conv_saisie))
+        #convert result to wanted base
+        resultat = numberToBase(resultat,10,convert_to)
+        print(resultat)
+        return(resultat)
+    
+    except Exception as e:
+        print(e)
+        raise
+
+def evaluate():
+    global total_calculation, current_calculation, result_on_screen, prev_base
+    
+    #if the result is on the screen then we clear the upper line
+    #and we replace it with the result
+    if result_on_screen:
+        total_calculation = ''
+    
+    convert_from = OPTIONS.get(clicked.get())
+    prev_base = convert_from
+    
+    total_calculation += current_calculation
+    
+    #Correct operation signs and parenthesies
+    if total_calculation[-1] in '+-':
+        total_calculation += '0'
+    elif total_calculation[-1] in '/*%':
+        total_calculation += '1'
+    
+    po = total_calculation.count('(')
+    pc = total_calculation.count(')')
+    if po > pc:
+        total_calculation += ')' * (po-pc)
+    elif pc > po:
+        total_calculation = '(' * (pc-po) + total_calculation
+    
+    try:
+        current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
+    except Exception as e:
+        current_calculation = 'NaN' #e
+    
+    result_on_screen = True
+    update()
+    return current_calculation
+
 def clear():
     global current_calculation, total_calculation
     current_calculation = ""
@@ -186,66 +247,22 @@ def switch_base(x):
     
     update()
 
-def evaluate():
-    global total_calculation, current_calculation, result_on_screen, prev_base
+def key_pressed(event):
+    char = event.char
+    name = event.keysym
+    #print(event)
+    if char != '':
+        if char.upper() in VALUES or char in '()':
+            add_to_exp(char.upper())
+        elif char in '+-/*%':
+            operator_update(char)
+        elif char == '^':
+            operator_update('**')
+        elif name == 'Return' or char == '=':
+            evaluate()
+        elif name == 'BackSpace':
+            clear()
     
-    #if the result is on the screen then we clear the upper line
-    #and we replace it with the result
-    if result_on_screen:
-        total_calculation = ''
-    
-    convert_from = OPTIONS.get(clicked.get())
-    prev_base = convert_from
-    
-    total_calculation += current_calculation
-    
-    #Correct operation signs and parenthesies
-    if total_calculation[-1] in '+-':
-        total_calculation += '0'
-    elif total_calculation[-1] in '/*%':
-        total_calculation += '1'
-    
-    po = total_calculation.count('(')
-    pc = total_calculation.count(')')
-    if po > pc:
-        total_calculation += ')' * (po-pc)
-    elif pc > po:
-        total_calculation = '(' * (pc-po) + total_calculation
-    
-    try:
-        current_calculation = baseEval_str(total_calculation, int(convert_from), int(convert_from))
-    except Exception as e:
-        current_calculation = 'NaN' #e
-    
-    result_on_screen = True
-    update()
-    return current_calculation
-    
-def baseEval_str(saisie,convert_from,convert_to):
-    ''' Takes an oppeartion formated as a string and calculates the result as a string
-    
-    Arguments:
-    > saisie -- str (operation in original base)
-    > convert_from -- int (base to convert from)
-    > convert_to -- int (base to convert to)
-    
-    returns:
-    - string (result of operation in wanted base)
-    '''
-    try:
-        #First, we parse saisie and we convert the numbers to decimal
-        conv_saisie = stringToBase(saisie,convert_from)
-        print('conv_saisie:',conv_saisie)
-        #Calculate operation in decimal, put into 'resultat'
-        resultat = round(eval(conv_saisie))
-        #convert result to wanted base
-        resultat = numberToBase(resultat,10,convert_to)
-        print(resultat)
-        return(resultat)
-    
-    except Exception as e:
-        print(e)
-        raise
 
 def create_window():
     global win, total_calc_label, calc_label, ButtonL, clicked, prev_base
@@ -295,9 +312,8 @@ def create_window():
         button.grid(row=gridval[0], column=gridval[1], sticky=tk.NSEW)
         
         ButtonL.append(button)
-
+    
     current_expression = "0"
-    print(current_expression)
     update()
 
     operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
@@ -334,6 +350,8 @@ def create_window():
         for c in range(1,6):   
             buttonframe.rowconfigure(r, weight=1)
             buttonframe.columnconfigure(c,weight=1)
+    
+    win.bind("<Key>",key_pressed)
     
     win.mainloop()
 
