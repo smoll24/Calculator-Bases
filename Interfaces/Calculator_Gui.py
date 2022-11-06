@@ -100,8 +100,16 @@ def stringToBase(saisie, convert_from = 10, convert_to = 10):
 
 def display(string):
     string = string.replace('**','^')
-    string = string.replace('/','\u00F7')
-    return string
+    
+    result = ''
+    for i in range(len(string)):
+        if string[i] in '+-/*^/' and i>0 and string[i-1] != '(':
+            result += ' ' + string[i] + ' '
+        else:
+            result += string[i]
+            
+    result = result.replace('/','\u00F7')
+    return result
 
 def update():
     total_calc_label.config(text=display(total_calculation))
