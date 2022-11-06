@@ -98,9 +98,14 @@ def stringToBase(saisie, convert_from = 10, convert_to = 10):
         conv_saisie += numberToBase(temp,convert_from,convert_to)
     return conv_saisie
 
+def display(string):
+    string = string.replace('**','^')
+    string = string.replace('/','\u00F7')
+    return string
+
 def update():
-    total_calc_label.config(text=total_calculation)
-    calc_label.config(text=current_calculation)
+    total_calc_label.config(text=display(total_calculation))
+    calc_label.config(text=display(current_calculation))
     total_calc_label.pack(expand=True, fill="both")
     calc_label.pack(expand=True, fill="both")
 
@@ -136,7 +141,7 @@ def operator_update(op):
     if result_on_screen:
         total_calculation = ''
         result_on_screen = False
-        
+    #cases:
     if current_calculation:
         if current_calculation[-1] != '(' or (op == '+' or op == '-'):
             total_calculation += current_calculation
@@ -191,6 +196,7 @@ def evaluate():
     
     if not total_calculation:
         return
+    
     #We correct the operation's signs and parenthesies
     if total_calculation[-1] == '(':
         total_calculation = total_calculation[:-1]
@@ -201,7 +207,6 @@ def evaluate():
         total_calculation += '0'
     elif total_calculation[-1] in '/*%':
         total_calculation += '1'
-        
     
     po = total_calculation.count('(')
     pc = total_calculation.count(')')
@@ -247,15 +252,8 @@ def switch_base(x):
     
     #edit the colors of the buttons to match if their input is correct
     for i in range(len(ButtonL)):
-        if len(ButtonL)-i-1 < OPTIONS.get(clicked.get()):
-            background = 'white'
-        else:
-            background = "#FFD0D0"
-            
         background, foreground = get_button_color(len(ButtonL)-i-1)
-        
         ButtonL[i].configure(bg= background, fg=foreground)
-    
     update()
 
 def key_pressed(event):
