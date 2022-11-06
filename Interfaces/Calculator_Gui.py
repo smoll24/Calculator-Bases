@@ -138,16 +138,17 @@ def operator_update(op):
         result_on_screen = False
         
     if current_calculation:
-        total_calculation += current_calculation
-        total_calculation += op
-    elif len(total_calculation)>2:
+        if current_calculation[-1] != '(' or (op == '+' or op == '-'):
+            total_calculation += current_calculation
+            total_calculation += op
+            current_calculation = ''
+    elif len(total_calculation)>1:
         if len(total_calculation) > 2 and total_calculation[-2] == '*':
             total_calculation = total_calculation[:-2] + op
         else:
             total_calculation = total_calculation[:-1] + op
     elif op == '+' or op == '-':
         total_calculation = op
-    current_calculation=""
     update()
 
 def baseEval_str(saisie,convert_from,convert_to):
@@ -191,7 +192,12 @@ def evaluate():
     if not total_calculation:
         return
     #We correct the operation's signs and parenthesies
-    if total_calculation[-1] in '+-(':
+    if total_calculation[-1] == '(':
+        total_calculation = total_calculation[:-1]
+        if not total_calculation:
+            return
+    
+    if total_calculation[-1] in '+-':
         total_calculation += '0'
     elif total_calculation[-1] in '/*%':
         total_calculation += '1'
