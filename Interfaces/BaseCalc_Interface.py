@@ -210,7 +210,7 @@ def calculate() :
         
     else:
         #Checks if complement a deux is applicable
-        if convert_to == 2 and calc_result[0] == '-':
+        if convert_to == 2 and calc_result[0] == '-' and calc_result.find('.') < 0:
             if complement() == 'yes':
                 calc_result = str(comp2(calc_result[1:]))
         
@@ -237,7 +237,7 @@ def comp2(bit_s):
 
 def complement():
     complement = messagebox.askquestion("Complément à deux",
-                            "Votre resultat est un nombre négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
+                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
                            icon = 'question')
     return complement
     
