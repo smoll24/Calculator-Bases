@@ -157,6 +157,7 @@ def convertBase() :
         result_data.config(text=result)
         
     except Exception as e:
+        messagebox.showerror(title='Error', message='Please enter valid operation')
         result_data.config(text='Enter valid operation')
         print (e)
     
