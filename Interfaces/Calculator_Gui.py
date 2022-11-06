@@ -121,7 +121,7 @@ def add_to_exp(value):
             current_calculation = ''
         if value == '(' and current_calculation and current_calculation[-1] in VALUES:
             operator_update('*')
-        if (value == ')' and not current_calculation) or (value == ')' and current_calculation[-1] not in VALUES):
+        if (value == ')' and not current_calculation) or (value == ')' and current_calculation[-1] == '('):
             value = ''
         
         current_calculation += value
