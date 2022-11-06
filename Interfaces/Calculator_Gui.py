@@ -103,7 +103,7 @@ def display(string):
     
     result = ''
     for i in range(len(string)):
-        if string[i] in '+-/*^/' and i>0 and string[i-1] != '(':
+        if string[i] in '+-/*/' and i>0 and string[i-1] != '(':
             result += ' ' + string[i] + ' '
         else:
             result += string[i]
