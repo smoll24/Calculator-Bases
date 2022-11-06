@@ -1,8 +1,8 @@
 #BaseConverter_Interface.py
 ###########################
 # Importation des modules utiles
-import tkinter as tk
 from tkinter import messagebox
+import tkinter as tk
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 #Dictionnaire des options pour les menus
@@ -149,14 +149,12 @@ def convertBase() :
         result = numberToBase(saisie,convert_from,convert_to) + resFlot
         
         #Checks if complement a deux is applicable
-        if convert_to == 2 and result[0] == '-':
-            if_comp = complement()
-            if if_comp == 'yes':  
-                result_data.config(text='no')
-            else:
-                result_data.config(text=result)
-        else:
-            result_data.config(text=result)
+        if convert_to == 2 and result[0] == '-' and result.find('.') < 0:
+            if complement() == 'yes':
+                result = str(comp2(result[1:]))
+                
+        #Affiche resultat
+        result_data.config(text=result)
         
     except Exception as e:
         result_data.config(text='Enter valid operation')
@@ -177,10 +175,28 @@ def aide() :
         
     return
 
+def octets(bit_s):
+    if len(bit_s)%4 != 0:
+        bit_s = ''.join('0' for i in range(4-len(bit_s)%4)) + bit_s
+    
+    return bit_s
+ 
+def comp2(bit_s):
+    bit_s = str(bit_s)
+    result = str(bit_s)
+    if int(bit_s) != 0:
+        bit_s = octets('0'+bit_s)
+        inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
+        dec = int(inverse_s,2)+1
+        result = bin(dec)[2:]
+    result = octets(result)
+    result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
+    return result
+
 def complement():
-    complement = messagebox.askquestion("Complement a deux",
-                           "Votre resultat est un nombre negatif binaire.\nLe convertir en complement a deux?",
-                           icon = 'info')
+    complement = messagebox.askquestion("Complément à deux",
+                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
+                           icon = 'question')
     return complement
 
 # Création de la fenêtre tkinter
