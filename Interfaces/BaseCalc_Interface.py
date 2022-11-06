@@ -215,7 +215,7 @@ def calculate() :
                 calc_result = str(comp2(calc_result[1:]))
         
         #Affiche resultat
-        result_data.config(text=calc_ result)
+        result_data.config(text=calc_result)
         
 def octets(bit_s):
     if len(bit_s)%4 != 0:
@@ -234,7 +234,13 @@ def comp2(bit_s):
     result = octets(result)
     result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
     return result
-        
+
+def complement():
+    complement = messagebox.askquestion("Complément à deux",
+                            "Votre resultat est un nombre négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
+                           icon = 'question')
+    return complement
+    
 def aide() :
     
     print('aide')
