@@ -204,9 +204,10 @@ def calculate() :
             assert CHARS.find(saisie[i]) > -1
         #calculate result of operation
         calc_result = baseEval_str(saisie,convert_from,convert_to)
-    except Exception as e:
-        print(e)
+    except Exception as e:        
+        messagebox.showerror(title='Error', message='Please enter valid operation')
         result_data.config(text='Enter valid operation')
+        print(e)
         
     else:
         #Checks if complement a deux is applicable
