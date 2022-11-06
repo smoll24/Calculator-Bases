@@ -3,6 +3,7 @@
 # Design inspiré de https://www.youtube.com/watch?v=QZPv1y2znZo (seulement le design, fonctionnalité crée par nous même)
 import tkinter as tk
 
+#initialise variables that keep track of what's on screen
 total_calculation = ""
 current_calculation = ""
 result_on_screen = False
@@ -26,9 +27,6 @@ OPTIONS = {
     "Hexadecimal (16)" : 16
 }
 
-#Characteres qui peuvent etres saisis par l'utilisateur
-CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+-/*%()'
-
 #All digits, characters used to represent values
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 OPERATIONS = '+-/*%()'
@@ -37,60 +35,62 @@ OPERATIONS = '+-/*%()'
 def numberToBase(num,fromB = 10,toB = 10):
     '''Converts a number inputed as a string from one base to another
     Arguments:
-    > num -- string
-    > fromB, base to convert from -- int [2,36]
-    > toB, base to convert to -- int [2,36]
+    > num -- string (number)
+    > fromB (base to convert from) -- int [2,36]
+    > toB (base to convert to) -- int [2,36]
     returns:
     - string
     '''
-    #We make sure that the bases are integers and num is a string
     fromB = int(fromB)
     toB = int(toB)
     num = str(num)
     #We make sure that the bases are in between 2 and 36
     assert fromB >= 2 and fromB <= 36
     assert toB >= 2 and toB <= 36
+    
     #we convert num to decimal, making num an integer
     num = int(num, fromB)
     result = ''
     #If num is 0 or we want base 10, then we are done
     if num == 0 or toB == 10:
-      result = str(num)
+        result = str(num)
     else:
-      #we convert num to a string in the target base and store it in result
-      #We remove the negative sign and add it back at the end
-      negative = False
-      if num < 0:
-          num = abs(num)
-          negative = True
-      while num > 0:
-          result = VALUES[num%toB].upper() + result
-          num //= toB
-      if negative:
-          result = '-' + result
+        #We remove the negative sign and add it back at the end
+        negative = False
+        if num < 0:
+            num = abs(num)
+            negative = True
+        #we convert num to a string in the target base and store it in result
+        while num > 0:
+            result = VALUES[num%toB] + result
+            num //= toB
+        if negative:
+            result = '-' + result
     
     return result
 
 def stringToBase(saisie, convert_from = 10, convert_to = 10):
     '''Converts all the numbers in an operation inputed as a string from one base to another
     Arguments:
-    > saisie -- string
-    > convert_from, base to convert from -- int [2,36]
-    > convert_to, base to convert to -- int [2,36]
+    > saisie -- string (operation)
+    > convert_from (base to convert from) -- int [2,36]
+    > convert_to (base to convert to) -- int [2,36]
     returns:
     - string
     '''
     conv_saisie=''
     temp = ''
-    for i in range(len(saisie)):
-        if saisie[i] not in OPERATIONS:
-            temp += saisie[i]
+    #we parse saisie and convert each number in the string into the wanted base
+    for x in saisie:
+        if x not in OPERATIONS:
+            temp += x
         else:
+            #special case for NaN just for fun
             if temp == 'NaN':
                 conv_saisie += 'NaN'
             elif temp.isalnum():
                 conv_saisie += numberToBase(temp,convert_from,convert_to)
-            conv_saisie += saisie[i]
+            conv_saisie += x
             temp = ''
     if temp == 'NaN':
         conv_saisie += 'NaN'
@@ -104,31 +104,35 @@ def update():
     total_calc_label.pack(expand=True, fill="both")
     calc_label.pack(expand=True, fill="both")
 
-
 def add_to_exp(value):
     global current_calculation, total_calculation, result_on_screen
+    value = str(value)
     
     #Only works if the value is smaller than the base
-    if VALUES.find(str(value)) < OPTIONS.get(clicked.get()):
+    if VALUES.find(value) < OPTIONS.get(clicked.get()):
+        #if the result is on the screen then we clear the whole screen
         if result_on_screen:
             current_calculation = ''
             total_calculation = ''
             result_on_screen = False
         
-        if len(current_calculation) >= 1:   
-            if current_calculation[0] !=  "0":
-                current_calculation += str(value)
-            else:
-                current_calculation = current_calculation[1:] + str(value)
-        else:
-            current_calculation += str(value)
+        #special cases:
+        if value in VALUES and current_calculation ==  '0':   
+            current_calculation = ''
+        if value == '(' and current_calculation and current_calculation[-1] in VALUES:
+            operator_update('*')
+        if (value == ')' and not current_calculation) or (value == ')' and current_calculation[-1] not in VALUES):
+            value = ''
+        
+        current_calculation += value
         update()
     
 def operator_update(op):
     global total_calculation, current_calculation, result_on_screen
+    op = str(op)
     
     #if the result is on the screen then we clear the upper line
-    #and we replace it with the result
+    #and we replace the upper line with the result
     if result_on_screen:
         total_calculation = ''
         result_on_screen = False
@@ -136,12 +140,12 @@ def operator_update(op):
     if current_calculation:
         total_calculation += current_calculation
         total_calculation += op
-    elif total_calculation:
-        if total_calculation[-2] == '*':
+    elif len(total_calculation)>2:
+        if len(total_calculation) > 2 and total_calculation[-2] == '*':
             total_calculation = total_calculation[:-2] + op
         else:
             total_calculation = total_calculation[:-1] + op
-    elif op == '-' or op == '+':
+    elif op == '+' or op == '-':
         total_calculation = op
     current_calculation=""
     update()
@@ -174,7 +178,6 @@ def baseEval_str(saisie,convert_from,convert_to):
 
 def evaluate():
     global total_calculation, current_calculation, result_on_screen, prev_base
-    
     #if the result is on the screen then we clear the upper line
     #and we replace it with the result
     if result_on_screen:
@@ -185,11 +188,14 @@ def evaluate():
     
     total_calculation += current_calculation
     
-    #Correct operation signs and parenthesies
-    if total_calculation[-1] in '+-':
+    if not total_calculation:
+        return
+    #We correct the operation's signs and parenthesies
+    if total_calculation[-1] in '+-(':
         total_calculation += '0'
     elif total_calculation[-1] in '/*%':
         total_calculation += '1'
+        
     
     po = total_calculation.count('(')
     pc = total_calculation.count(')')
@@ -205,7 +211,6 @@ def evaluate():
     
     result_on_screen = True
     update()
-    return current_calculation
 
 def clear():
     global current_calculation, total_calculation
