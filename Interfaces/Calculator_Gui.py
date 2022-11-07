@@ -103,17 +103,22 @@ def display(string):
     
     result = ''
     for i in range(len(string)):
-        if string[i] in '+-/*/' and i>0 and string[i-1] != '(':
+        if string[i] in '+-*/' and i>0 and string[i-1] != '(':
             result += ' ' + string[i] + ' '
         else:
             result += string[i]
             
+    result = result.replace('*','\u00D7')
     result = result.replace('/','\u00F7')
+    
+    if result_on_screen:
+        result += ' ='
+    
     return result
 
 def update():
     total_calc_label.config(text=display(total_calculation))
-    calc_label.config(text=display(current_calculation))
+    calc_label.config(text=current_calculation)
     total_calc_label.pack(expand=True, fill="both")
     calc_label.pack(expand=True, fill="both")
 
