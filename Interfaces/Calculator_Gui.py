@@ -101,8 +101,10 @@ def stringToBase(saisie, convert_from = 10, convert_to = 10):
 def display(string):
     string = string.replace('**','^')
     
+    temp = ''
     result = ''
     for i in range(len(string)):
+        #treat operators
         if string[i] in '+-*/' and i>0 and string[i-1] != '(':
             result += ' ' + string[i] + ' '
         else:
@@ -237,9 +239,10 @@ def evaluate():
     update()
 
 def clear():
-    global current_calculation, total_calculation
+    global current_calculation, total_calculation, result_on_screen
     current_calculation = ""
     total_calculation = ""
+    result_on_screen = False
     update()
 
 def get_button_color(value):
