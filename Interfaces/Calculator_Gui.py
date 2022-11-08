@@ -295,7 +295,7 @@ def create_window():
     # Création de la fenêtre tkinter
     win = tk.Tk()
     win.geometry('375x650')
-    win.title('Calculator GUI')
+    win.title("Calculatrice d'entiers")
     win.configure(background='#e4e4e4')
     #win.resizable(0,0)
 
