@@ -43,11 +43,11 @@ def create_window():
   bouton_lancer.grid(row=2, column=0, padx=6, pady=6, ipadx=5)
   
   # Création du bouton "Calculatrice"
-  bouton_lancer = tk.Button(fenetre, text='Calculatrice Réels', command=ouvre_calculatrice, anchor=tk.CENTER)
+  bouton_lancer = tk.Button(fenetre, text='Calculatrice de réels', command=ouvre_calculatrice, anchor=tk.CENTER)
   bouton_lancer.grid(row=3, column=0, padx=6, pady=6, ipadx=5)
   
   # Création du bouton "Calculatrice 2"
-  bouton_lancer = tk.Button(fenetre, text="Calculatrice Entiers", command=ouvre_calculatrice2, anchor=tk.CENTER)
+  bouton_lancer = tk.Button(fenetre, text="Calculatrice d'entiers", command=ouvre_calculatrice2, anchor=tk.CENTER)
   bouton_lancer.grid(row=4, column=0, padx=6, pady=6, ipadx=5)
   
   # Création du bouton "Puissances"
