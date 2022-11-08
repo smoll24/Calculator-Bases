@@ -157,7 +157,7 @@ def convertBase() :
         result_data.config(text=result)
         
     except Exception as e:
-        messagebox.showerror(title='Error', message='Please enter valid operation')
+        messagebox.showerror(title='Erreur de saisis', message='Erreur de saisis. \nSaisissez un nombre valide.')
         result_data.config(text='Enter valid operation')
         print (e)
     
@@ -206,7 +206,7 @@ def create_window():
   
   root = tk.Tk()
   root.geometry('400x250')
-  root.title('Convertisseur de base')
+  root.title('Convertisseur de bases')
   root.configure(background='#e4e4e4')
   
   # Création d'une autre frame pour la centrer
@@ -225,7 +225,7 @@ def create_window():
   bouton_aide.grid(row=0,column=4,sticky='E')
   
   #CREATIONS DES ZONES DE TEXTE
-  entete = tk.Label(fenetre, text='       Convertisseur de Base       ', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
+  entete = tk.Label(fenetre, text='       Convertisseur de bases       ', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
   entete.grid(row=0, column=0, columnspan=4,pady=10)
   
   from_label = tk.Label(fenetre, text='From', bg='#e4e4e4')
@@ -237,7 +237,7 @@ def create_window():
   enter_label = tk.Label(fenetre, text='Saisis', bg='#e4e4e4')
   enter_label.grid(row=3, column=0)
   
-  result_label = tk.Label(fenetre, text='saisie', bg='#e4e4e4')
+  result_label = tk.Label(fenetre, text='Résultat', bg='#e4e4e4')
   result_label.grid(row=5, column=0)
   
   base1_label = tk.Label(fenetre, text='N/A', bg='#e4e4e4')
@@ -256,14 +256,14 @@ def create_window():
   #CREATION DES MENUS
   #clicked is variable for choice of base form user
   clicked = tk.StringVar(fenetre)
-  clicked.set( "Choose base" )
+  clicked.set( "Choisis base" )
   #creation of menu using options from the keys of options dictionary
   base1_menu = tk.OptionMenu(fenetre, clicked, *OPTIONS.keys())
   base1_menu.grid(row=1, column=1)
   
   #clicked is variable for choice of base form user
   clicked2 = tk.StringVar(fenetre)
-  clicked2.set( "Choose base" )
+  clicked2.set( "Choisis base" )
   #creation of menu using options from the keys of options dictionary
   base2_menu = tk.OptionMenu(fenetre, clicked2, *OPTIONS.keys())
   base2_menu.grid(row=2, column=1)
