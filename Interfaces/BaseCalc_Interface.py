@@ -55,16 +55,9 @@ def numberToBase(num,fromB = 10,toB = 10):
       result = str(num)
     else:
       #we convert num to a string in the target base and store it in result
-      #We remove the negative sign and add it back at the end
-      negative = False
-      if num < 0:
-          num = abs(num)
-          negative = True
       while num > 0:
           result = VALUES[num%toB] + result
           num //= toB
-      if negative:
-          result = '-' + result
     return result
 
 def decToBase(saisieFlot,convert_to):
@@ -119,6 +112,12 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
     convert_to = int(convert_to)
     saisie = str(saisie)
     
+    #We remove the negative sign and add it back at the end
+    negative = False
+    if saisie[0] == '-':
+        saisie = saisie[1:]
+        negative = True
+    
     resFlot = ''
     x = saisie.find('.')
     if x >= 0: #si il y a une virgule
@@ -137,6 +136,8 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
         
     #Convert the number
     result = numberToBase(saisie,convert_from,convert_to) + resFlot
+    if negative:
+        result = '-' + result
     return result
 
 def stringToBase(saisie, convert_from = 10, convert_to = 10):
