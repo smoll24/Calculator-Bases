@@ -118,7 +118,7 @@ def create_window():
   
   root = tk.Tk()
   root.geometry('260x530')
-  root.title('Tableaux de Puissances')
+  root.title('Tableaux de puissances')
   root.configure(background='#e4e4e4')
   
   # Création d'une autre frame pour la centrer
@@ -137,7 +137,7 @@ def create_window():
   bouton_aide.grid(row=14,column=1)
   
   #CREATION DES ZONES DE TEXTE 
-  entete = tk.Label(fenetre, text='Tableaux de Puissances', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
+  entete = tk.Label(fenetre, text='Tableaux de puissances', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
   entete.grid(row=0, column=0, pady=10, columnspan=2)
   
   power_1 = tk.Label(fenetre, text='',width=20, font=('Arial', 11), bg="#fff")  # par exemple
@@ -179,7 +179,7 @@ def create_window():
   #CREATION DES MENUS
   #clicked is variable for choice of base form user
   clicked = tk.StringVar(fenetre)
-  clicked.set( "Choose base" )
+  clicked.set( "Choisis base" )
   #creation of menu using options from the keys of options dictionary
   base1_menu = tk.OptionMenu(fenetre, clicked, *OPTIONS.keys())
   base1_menu.grid(row=1, column=1)
