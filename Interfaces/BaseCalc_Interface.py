@@ -205,7 +205,7 @@ def calculate() :
         #calculate result of operation
         calc_result = baseEval_str(saisie,convert_from,convert_to)
     except Exception as e:        
-        messagebox.showerror(title='Error', message='Please enter valid operation')
+        messagebox.showerror(title='Erreur de saisis', message='Erreur de saisis. \nSaisissez une opération valide.')
         result_data.config(text='Enter valid operation')
         print(e)
         
@@ -254,7 +254,7 @@ def create_window():
   # Création de la fenêtre tkinter
   root = tk.Tk()
   root.geometry('320x190')
-  root.title('Base Calculator')
+  root.title('Calculatrice de réels')
   root.configure(background='#e4e4e4')
   
   # Création d'une autre frame pour la centrer
@@ -273,13 +273,13 @@ def create_window():
   bouton_aide.grid(row=0,column=1,sticky='E')
   
   # Création des zones de texte 
-  entete = tk.Label(fenetre, text='Base Calculator', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
+  entete = tk.Label(fenetre, text='Calculatrice de réels', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
   entete.grid(row=0, column=0, columnspan=2, pady=10)
   
-  calcul_label = tk.Label(fenetre, text='Operation', pady=5, bg='#e4e4e4')
+  calcul_label = tk.Label(fenetre, text='Opération', pady=5, bg='#e4e4e4')
   calcul_label.grid(row=1, column=0)
   
-  result_label = tk.Label(fenetre, text='Resultat', pady=5, bg='#e4e4e4')
+  result_label = tk.Label(fenetre, text='Résultat', pady=5, bg='#e4e4e4')
   result_label.grid(row=2, column=0)
   
   result_data = tk.Label(fenetre, text='',width=15, font=('Arial', 11), bg="#fff") 
