@@ -160,6 +160,7 @@ def convertBase() :
         if convert_to == 2 and result[0] == '-' and result.find('.') < 0:
             if complement() == 'yes':
                 result = str(comp2(result[1:]))
+                base2_label.config(text='Comp à 2')
                 
         #Affiche resultat
         result_data.config(text=result)
@@ -194,7 +195,7 @@ def comp2(bit_s):
     bit_s = str(bit_s)
     result = str(bit_s)
     if int(bit_s) != 0:
-        bit_s = octets('0'+bit_s)
+        bit_s = octets(bit_s)
         inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
         dec = int(inverse_s,2)+1
         result = bin(dec)[2:]
