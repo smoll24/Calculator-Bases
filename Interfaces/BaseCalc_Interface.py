@@ -114,7 +114,7 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
     
     #We remove the negative sign and add it back at the end
     negative = False
-    if saisie[0] == '-':
+    if saisie[0] == '-' and float(saisie) != 0:
         saisie = saisie[1:]
         negative = True
     
