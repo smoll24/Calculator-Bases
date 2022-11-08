@@ -1,7 +1,6 @@
 #BaseConverter_Interface.py
 ###########################
 # Importation des modules utiles
-from tkinter import messagebox
 import tkinter as tk
 VALUES = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -48,17 +47,9 @@ def numberToBase(num,fromB = 10,toB = 10):
       result = str(num)
     else:
       #we convert num to a string in the target base and store it in result
-      #We remove the negative sign and add it back at the end
-      negative = False
-      if num < 0:
-          num = abs(num)
-          negative = True
       while num > 0:
           result = VALUES[num%toB] + result
           num //= toB
-      if negative:
-          result = '-' + result
-    
     return result
 
 def decToBase(saisieFlot,convert_to):
@@ -128,6 +119,12 @@ def convertBase() :
     base1_label.config(text=convert_from)
     base2_label.config(text=convert_to)
     
+    #We remove the negative sign and add it back at the end
+    negative = False
+    if saisie[0] == '-' and float(saisie) != 0:
+        saisie = saisie[1:]
+        negative = True
+    
     resFlot = ''
     x = saisie.find('.')
     if x >= 0: #si il y a une virgule
@@ -147,17 +144,12 @@ def convertBase() :
         
         #Convert the number
         result = numberToBase(saisie,convert_from,convert_to) + resFlot
+        if negative:
+            result = '-' + result
         
-        #Checks if complement a deux is applicable
-        if convert_to == 2 and result[0] == '-' and result.find('.') < 0:
-            if complement() == 'yes':
-                result = str(comp2(result[1:]))
-                
-        #Affiche resultat
+        #Changes label box to show result
         result_data.config(text=result)
-        
     except Exception as e:
-        messagebox.showerror(title='Erreur de saisis', message='Erreur de saisis. \nSaisissez un nombre valide.')
         result_data.config(text='Enter valid operation')
         print (e)
     
@@ -176,37 +168,13 @@ def aide() :
         
     return
 
-def octets(bit_s):
-    if len(bit_s)%4 != 0:
-        bit_s = ''.join('0' for i in range(4-len(bit_s)%4)) + bit_s
-    
-    return bit_s
- 
-def comp2(bit_s):
-    bit_s = str(bit_s)
-    result = str(bit_s)
-    if int(bit_s) != 0:
-        bit_s = octets('0'+bit_s)
-        inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
-        dec = int(inverse_s,2)+1
-        result = bin(dec)[2:]
-    result = octets(result)
-    result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
-    return result
-
-def complement():
-    complement = messagebox.askquestion("Complément à deux",
-                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
-                           icon = 'question')
-    return complement
-
 # Création de la fenêtre tkinter
 def create_window():
   global result_data, champSaisie, clicked, clicked2, base1_label, base2_label, root, fenetre
   
   root = tk.Tk()
   root.geometry('400x250')
-  root.title('Convertisseur de bases')
+  root.title('Convertisseur de base')
   root.configure(background='#e4e4e4')
   
   # Création d'une autre frame pour la centrer
@@ -225,7 +193,7 @@ def create_window():
   bouton_aide.grid(row=0,column=4,sticky='E')
   
   #CREATIONS DES ZONES DE TEXTE
-  entete = tk.Label(fenetre, text='       Convertisseur de bases       ', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
+  entete = tk.Label(fenetre, text='       Convertisseur de Base       ', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
   entete.grid(row=0, column=0, columnspan=4,pady=10)
   
   from_label = tk.Label(fenetre, text='From', bg='#e4e4e4')
@@ -237,7 +205,7 @@ def create_window():
   enter_label = tk.Label(fenetre, text='Saisis', bg='#e4e4e4')
   enter_label.grid(row=3, column=0)
   
-  result_label = tk.Label(fenetre, text='Résultat', bg='#e4e4e4')
+  result_label = tk.Label(fenetre, text='saisie', bg='#e4e4e4')
   result_label.grid(row=5, column=0)
   
   base1_label = tk.Label(fenetre, text='N/A', bg='#e4e4e4')
@@ -256,14 +224,14 @@ def create_window():
   #CREATION DES MENUS
   #clicked is variable for choice of base form user
   clicked = tk.StringVar(fenetre)
-  clicked.set( "Choisis base" )
+  clicked.set( "Choose base" )
   #creation of menu using options from the keys of options dictionary
   base1_menu = tk.OptionMenu(fenetre, clicked, *OPTIONS.keys())
   base1_menu.grid(row=1, column=1)
   
   #clicked is variable for choice of base form user
   clicked2 = tk.StringVar(fenetre)
-  clicked2.set( "Choisis base" )
+  clicked2.set( "Choose base" )
   #creation of menu using options from the keys of options dictionary
   base2_menu = tk.OptionMenu(fenetre, clicked2, *OPTIONS.keys())
   base2_menu.grid(row=2, column=1)
