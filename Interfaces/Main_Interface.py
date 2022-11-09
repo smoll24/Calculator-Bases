@@ -4,11 +4,6 @@
 import tkinter as tk
 import importlib
 
-#import BaseConverter_Interface
-#import BaseCalc_Interface
-#import Calculator_Gui
-#import BasePowers_Interface
-
 #Dict of file names as keys and display name as value
 MODNAMES = {
     "BaseConverter_Interface" : 'Convertisseur',
