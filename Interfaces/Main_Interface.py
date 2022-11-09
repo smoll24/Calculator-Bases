@@ -20,7 +20,7 @@ def create_window():
     global root
     # Création de la fenêtre tkinter
     root = tk.Tk()
-    root.geometry('240x290')
+    root.geometry('240x310')
     root.title('Main Base Interface')
     root.configure(background='#e4e4e4')
   
@@ -43,14 +43,21 @@ def create_window():
             i += 1
         except ImportError:
             print("No module named '%s'"%file_name)
-
-    #Creation du bouton "Close Programs"
-    bouton_closeprog = tk.Button(fenetre, text='Close Programs', command=close_programs)
-    bouton_closeprog.grid(row=6, column=0, padx=6, pady=6, ipadx=5)
+    
+    #Si on a trouve des modules on cree le button 'Close Pograms'
+    if Modules:
+        tk.Label(fenetre, bg='#e4e4e4').grid(row = 6, pady=0)
+        #Creation du bouton "Close Programs"
+        bouton_closeprog = tk.Button(fenetre, text='Close Programs', command=close_programs)
+        bouton_closeprog.grid(row=7, column=0, padx=6, pady=6, ipadx=5)
+    else:
+        #Si on n'a pas trouve de modules on l'affiche
+        text = tk.Label(fenetre, text='No modules found.', bg='#e4e4e4')
+        text.grid(row=1, column=0, padx=6, pady=6, ipadx=5)
 
     #Creation du bouton "Quitter"
     bouton_quitter = tk.Button(fenetre, text='Quitter', command=quitter)
-    bouton_quitter.grid(row=7, column=0, padx=6, pady=6, ipadx=5)
+    bouton_quitter.grid(row=8, column=0, padx=6, pady=6, ipadx=5)
 
     #CREATION DES ZONES DE TEXTE 
     entete = tk.Label(fenetre, text='Main Base Hub', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
