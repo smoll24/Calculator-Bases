@@ -99,6 +99,7 @@ def stringToBase(saisie, convert_from = 10, convert_to = 10):
     return conv_saisie
 
 def display(string):
+    '''Formats an operation in a string to be displayed on screen.'''
     string = string.replace('**','^')
     
     temp = ''
