@@ -107,6 +107,44 @@ def baseToDec(saisieFlot,convert_from):
     res = str(res)
     return (res[2:])
 
+def aide() :
+    
+    aide_txt = "..."
+    
+    popup = tk.Toplevel(root)
+    popup.geometry('450x320')
+    popup.title('Aide Calculator')
+    popup.configure(background='#e4e4e4')
+    aide_label = tk.Label(popup, text=aide_txt,padx=50,pady=25,bg='#e4e4e4')
+    aide_label.pack()
+        
+    return
+
+def octets(bit_s):
+    '''Complete with zeros to multiple of 4 bits'''
+    if len(bit_s)%4 != 0:
+        bit_s = ''.join('0' for i in range(4-len(bit_s)%4)) + bit_s
+    return bit_s
+ 
+def comp2(bit_s):
+    '''Converts a binary number into a negative complement à deux number'''
+    bit_s = str(bit_s)
+    result = str(bit_s)
+    if int(bit_s) != 0:
+        bit_s = octets(bit_s)
+        inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
+        dec = int(inverse_s,2)+1
+        result = bin(dec)[2:]
+    result = octets(result)
+    result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
+    return result
+
+def complement():
+    complement = messagebox.askquestion("Complément à deux",
+                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
+                           icon = 'question')
+    return complement
+
 def convertBase() :
     """Affiche la conversion de la base
 
@@ -171,43 +209,6 @@ def convertBase() :
         print (e)
     
     return
-
-def aide() :
-    
-    aide_txt = "..."
-    
-    popup = tk.Toplevel(root)
-    popup.geometry('450x320')
-    popup.title('Aide Calculator')
-    popup.configure(background='#e4e4e4')
-    aide_label = tk.Label(popup, text=aide_txt,padx=50,pady=25,bg='#e4e4e4')
-    aide_label.pack()
-        
-    return
-
-def octets(bit_s):
-    if len(bit_s)%4 != 0:
-        bit_s = ''.join('0' for i in range(4-len(bit_s)%4)) + bit_s
-    
-    return bit_s
- 
-def comp2(bit_s):
-    bit_s = str(bit_s)
-    result = str(bit_s)
-    if int(bit_s) != 0:
-        bit_s = octets(bit_s)
-        inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
-        dec = int(inverse_s,2)+1
-        result = bin(dec)[2:]
-    result = octets(result)
-    result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
-    return result
-
-def complement():
-    complement = messagebox.askquestion("Complément à deux",
-                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
-                           icon = 'question')
-    return complement
 
 # Création de la fenêtre tkinter
 def create_window():
