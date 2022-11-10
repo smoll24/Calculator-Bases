@@ -82,11 +82,10 @@ def decToBase(saisieFlot,convert_to):
     i=0
     res = ''
     temp = 0.1
-    saisieFlot = (saisieFlot + '00')[:2] # on veut que deux valeur
-    num = float(saisieFlot)/100
+    num = float('.'+saisieFlot)
     
     #Calculation loop
-    while (i < 10) and round(temp,2)!=int(temp):
+    while (i < 10) and temp!=int(temp):
         temp = float(num*convert_to)
         res += VALUES[int(temp)]
         num = temp - int(temp)
@@ -123,7 +122,6 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
     x = saisie.find('.')
     if x >= 0: #si il y a une virgule
         saisie += '0'
-        saisie = saisie[:x+3] #arrondi a deux chiffres apres la virgule
         saisieFlot = saisie[x+1:]
         saisie = saisie[:x]
     
