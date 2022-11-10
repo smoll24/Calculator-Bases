@@ -59,11 +59,10 @@ def decToBase(saisieFlot,convert_to):
     i=0
     res = ''
     temp = 0.1
-    saisieFlot = (saisieFlot + '000')[:3] # on ne veut que trois valeurs
-    num = float(saisieFlot)/1000
+    num = float('.'+saisieFlot)
     
     #Calculation loop
-    while (i < 10) and round(temp,3)!=int(temp):
+    while (i < 10) and temp!=int(temp):
         temp = float(num*convert_to)
         res += VALUES[int(temp)]
         num = temp - int(temp)
