@@ -104,8 +104,27 @@ def initialize():
 
 def aide() :
     
-    print('aide')
+    fonction_text = "Ce programme permet à l'utilisateur de voir le tableau de puissances (de 1 à 10)\npour un nombre entier de 2 à 16, et affiche les résultats en n'importe quelle base\n(de 2 à 16)."
+  
+    popup2 = tk.Toplevel(root)
+    popup2.geometry('460x150')
+    popup2.title('Aide Calculator')
+    popup2.configure(background='#e4e4e4')
+    
+    # Création d'une autre frame pour la centrer
+    popup = tk.Frame(popup2)
+    popup.pack()
+    popup.configure(background='#e4e4e4')
         
+    titre = tk.Label(popup, text='AIDE Tableau de puissances', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4',anchor="center")
+    titre.grid(row=0, column=0,pady=5)
+    
+    fonction = tk.Label(popup, text='Fonction',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    fonction.grid(row=1, column=0,pady=2)
+  
+    fonction_label = tk.Label(popup, text=fonction_text,bg='#e4e4e4',anchor="center",justify='left')
+    fonction_label.grid(row=2, column=0,pady=2)
+ 
     return
 
 
@@ -118,7 +137,7 @@ def create_window():
   
   root = tk.Tk()
   root.geometry('260x530')
-  root.title('Tableaux de puissances')
+  root.title('Tableau de puissances')
   root.configure(background='#e4e4e4')
   
   # Création d'une autre frame pour la centrer
@@ -137,7 +156,7 @@ def create_window():
   bouton_aide.grid(row=14,column=1)
   
   #CREATION DES ZONES DE TEXTE 
-  entete = tk.Label(fenetre, text='Tableaux de puissances', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
+  entete = tk.Label(fenetre, text='Tableau de puissances', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
   entete.grid(row=0, column=0, pady=10, columnspan=2)
   
   power_1 = tk.Label(fenetre, text='',width=20, font=('Arial', 11), bg="#fff")  # par exemple
