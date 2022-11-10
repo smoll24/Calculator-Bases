@@ -189,7 +189,7 @@ def convertBase() :
         result_data.config(text=result)
         
     except Exception as e:
-        messagebox.showerror(title='Erreur de saisis', message='Erreur de saisis. \nSaisissez un nombre valide.')
+        messagebox.showerror(title='Erreur de saisie', message='Erreur de saisie. \nSaisissez un nombre valide.')
         result_data.config(text='Enter valid operation')
         print (e)
     
@@ -203,7 +203,7 @@ def aide() :
     
     popup2 = tk.Toplevel(root)
     popup2.geometry('460x330')
-    popup2.title('Aide Calculator')
+    popup2.title('Aide Convertisseur')
     popup2.configure(background='#e4e4e4')
     
     # Création d'une autre frame pour la centrer
