@@ -13,11 +13,13 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@kalanoka)
 - see help guide for more info!
 ---
 ### how to use our interface:
-1) Download the five files in the interface folder
+1) Download the five files in the *interface* folder
 2) Run main_interface.py
 This will give you access to all the interfaces.
 
 Alternatively, download the specific interace you want and run that file on its own.
+
+If you are missing a file, the code will still run the other interfaces.
 
 ---
 ### Calculator Example:
