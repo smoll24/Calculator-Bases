@@ -151,9 +151,9 @@ def afficheConversion() :
         sign,expDec,exp,mantisse,num_int,num_float = convert(saisie,base)
         
         if sign == 0:
-            signe_data_dec.config(text='+1')
+            signe_data_dec.config(text='+')
         else:
-            signe_data_dec.config(text='-1')
+            signe_data_dec.config(text='-')
             
         exp_data_dec.config(text='2^'+str(expDec))
         mant_data_dec.config(text='1.'+str(int(mantisse,2)))
