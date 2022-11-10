@@ -1,4 +1,4 @@
-#IEEE.py
+#IEEE_Interface.py
 ###########################
 # Importation des modules utiles
 from tkinter import messagebox
