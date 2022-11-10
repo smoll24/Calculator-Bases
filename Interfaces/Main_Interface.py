@@ -9,6 +9,7 @@ MODNAMES = {
     "BaseConverter_Interface" : 'Convertisseur',
     "BaseCalc_Interface" : 'Calculatrice de réels',
     "Calculator_Gui" : "Calculatrice d'entiers",
+    "IEEE_Interface" : 'Convertisseur IEEE 754',
     "BasePowers_Interface" : 'Puissances',
     }
 
@@ -20,7 +21,7 @@ def create_window():
     global root
     # Création de la fenêtre tkinter
     root = tk.Tk()
-    root.geometry('240x310')
+    root.geometry('240x340')
     root.title('Main Base Interface')
     root.configure(background='#e4e4e4')
   
@@ -46,10 +47,10 @@ def create_window():
     
     #Si on a trouve des modules on cree le button 'Close Pograms'
     if Modules:
-        tk.Label(fenetre, bg='#e4e4e4').grid(row = 6, pady=0)
+        tk.Label(fenetre, bg='#e4e4e4').grid(row = 7, pady=0)
         #Creation du bouton "Close Programs"
         bouton_closeprog = tk.Button(fenetre, text='Close Programs', command=close_programs)
-        bouton_closeprog.grid(row=7, column=0, padx=6, pady=6, ipadx=5)
+        bouton_closeprog.grid(row=8, column=0, padx=6, pady=6, ipadx=5)
     else:
         #Si on n'a pas trouve de modules on l'affiche
         text = tk.Label(fenetre, text='No modules found.', bg='#e4e4e4')
@@ -57,7 +58,7 @@ def create_window():
 
     #Creation du bouton "Quitter"
     bouton_quitter = tk.Button(fenetre, text='Quitter', command=quitter)
-    bouton_quitter.grid(row=8, column=0, padx=6, pady=6, ipadx=5)
+    bouton_quitter.grid(row=9, column=0, padx=6, pady=6, ipadx=5)
 
     #CREATION DES ZONES DE TEXTE 
     entete = tk.Label(fenetre, text='Main Base Hub', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4')
