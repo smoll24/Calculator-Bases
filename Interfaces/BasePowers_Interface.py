@@ -108,7 +108,7 @@ def aide() :
   
     popup2 = tk.Toplevel(root)
     popup2.geometry('460x150')
-    popup2.title('Aide Calculator')
+    popup2.title('Aide Tableau')
     popup2.configure(background='#e4e4e4')
     
     # Création d'une autre frame pour la centrer
