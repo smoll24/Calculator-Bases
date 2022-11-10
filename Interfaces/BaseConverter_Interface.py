@@ -268,7 +268,7 @@ def create_window():
   to_label = tk.Label(fenetre, text='To', bg='#e4e4e4')
   to_label.grid(row=2, column=0)
   
-  enter_label = tk.Label(fenetre, text='Saisis', bg='#e4e4e4')
+  enter_label = tk.Label(fenetre, text='Saisie', bg='#e4e4e4')
   enter_label.grid(row=3, column=0)
   
   result_label = tk.Label(fenetre, text='Résultat', bg='#e4e4e4')
