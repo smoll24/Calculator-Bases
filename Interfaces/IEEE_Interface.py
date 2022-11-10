@@ -171,21 +171,47 @@ def afficheConversion() :
 
         hex_data.config(text=hexa.upper())
     except:
-        messagebox.showerror(title='Erreur de saisis', message='Erreur de saisis. \nSaisissez un nombre valide.')
+        messagebox.showerror(title='Erreur de saisie', message='Erreur de saisie. \nSaisissez un nombre valide.')
             
     return
 
 def aide() :
     
-    aide_txt = "..."
+    fonction_text = "Ce programme permet à l'utilisateur d'entrer un nombre réel dans n'importe\nquelle base (de 2 à 16) et de le convertir vers sa notation IEEE 754 décimale,\nbinaire, et hexadécimale."
+    utilisation_text = "L'utilisateur doit d'abord choisir la base dans laquelle se trouve le nombre saisi,\npuis appuyer sur le bouton « Convertir » pour effectuer la conversion."
+    remarques_text = "La zone de saisie ne fonctionne qu'avec les caractères possibles dans la base\nchoisie, et renvoie une erreur lorsque ce n'est pas le cas."
     
-    popup = tk.Toplevel(root)
-    popup.geometry('450x320')
-    popup.title('Aide Convetisseur')
+    popup2 = tk.Toplevel(root)
+    popup2.geometry('460x290')
+    popup2.title('Aide Calculator')
+    popup2.configure(background='#e4e4e4')
+    
+    # Création d'une autre frame pour la centrer
+    popup = tk.Frame(popup2)
+    popup.pack()
     popup.configure(background='#e4e4e4')
-    aide_label = tk.Label(popup, text=aide_txt,padx=50,pady=25,bg='#e4e4e4')
-    aide_label.pack()
         
+    titre = tk.Label(popup, text='AIDE Convertisseur IEEE 754', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4',anchor="center")
+    titre.grid(row=0, column=0,pady=5)
+    
+    fonction = tk.Label(popup, text='Fonction',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    fonction.grid(row=1, column=0,pady=2)
+    
+    utilisation = tk.Label(popup, text='Utilisation',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    utilisation.grid(row=3, column=0,pady=2)
+    
+    remarques = tk.Label(popup, text='Remarques',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    remarques.grid(row=5, column=0,pady=2)
+    
+    fonction_label = tk.Label(popup, text=fonction_text,bg='#e4e4e4',anchor="center",justify='left')
+    fonction_label.grid(row=2, column=0,pady=2)
+    
+    utilisation_label = tk.Label(popup, text=utilisation_text,bg='#e4e4e4',anchor="center",justify='left')
+    utilisation_label.grid(row=4, column=0,pady=2)
+    
+    remarques_label = tk.Label(popup, text=remarques_text,bg='#e4e4e4',anchor="center",justify='left')
+    remarques_label.grid(row=6, column=0,pady=2)        
+
     return
 
 # Création de la fenêtre tkinter
@@ -258,7 +284,7 @@ def create_window():
   hex_data = tk.Label(fenetre, text='', width=40, font=('Arial', 11), bg="#fff")
   hex_data.grid(row=6, column=1, pady=5, columnspan=4)
   
-  enter_label = tk.Label(fenetre, text='Saisis', bg='#e4e4e4')
+  enter_label = tk.Label(fenetre, text='Saisie', bg='#e4e4e4')
   enter_label.grid(row=1, column=0)
   
   #CREATION DES CHAMPS DE SAISIE
@@ -289,4 +315,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
