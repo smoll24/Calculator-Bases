@@ -106,45 +106,6 @@ def baseToDec(saisieFlot,convert_from):
     res = str(res)
     return (res[2:])
 
-def aide() :
-    
-    fonction_text = "Ce programme permet à l'utilisateur d'entrer un nombre réel dans n'importe\nquelle base (de 2 à 16) et de le convertir vers une autre base.\n\nSi le résultat du calcul est un nombre entier négatif binaire, l'utilisateur peut\nchoisir de le faire apparaître en complément à deux."
-    utilisation_text = "L'utilisateur doit d'abord choisir la base dans laquelle se trouve le nombre\nsaisi et la base vers laquelle il veut convertir le nombre. Ensuite, l'utilisateur\ndoit saisir le nombre qu'il souhaite convertir et appuyer sur le bouton\n« Convertir » pour effectuer le calcul."
-    remarques_text = "La zone de saisie ne fonctionne qu'avec les caractères possibles dans la base\nchoisie, et renvoie une erreur lorsque ce n'est pas le cas."
-    
-    popup2 = tk.Toplevel(root)
-    popup2.geometry('460x330')
-    popup2.title('Aide Calculator')
-    popup2.configure(background='#e4e4e4')
-    
-    # Création d'une autre frame pour la centrer
-    popup = tk.Frame(popup2)
-    popup.pack()
-    popup.configure(background='#e4e4e4')
-        
-    titre = tk.Label(popup, text='AIDE Convertisseur de bases', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4',anchor="center")
-    titre.grid(row=0, column=0,pady=5)
-    
-    fonction = tk.Label(popup, text='Fonction',bg='#e4e4e4',font=('Arial', 10, 'bold'))
-    fonction.grid(row=1, column=0,pady=2)
-    
-    utilisation = tk.Label(popup, text='Utilisation',bg='#e4e4e4',font=('Arial', 10, 'bold'))
-    utilisation.grid(row=3, column=0,pady=2)
-    
-    remarques = tk.Label(popup, text='Remarques',bg='#e4e4e4',font=('Arial', 10, 'bold'))
-    remarques.grid(row=5, column=0,pady=2)
-    
-    fonction_label = tk.Label(popup, text=fonction_text,bg='#e4e4e4',anchor="center",justify='left')
-    fonction_label.grid(row=2, column=0,pady=2)
-    
-    utilisation_label = tk.Label(popup, text=utilisation_text,bg='#e4e4e4',anchor="center",justify='left')
-    utilisation_label.grid(row=4, column=0,pady=2)
-    
-    remarques_label = tk.Label(popup, text=remarques_text,bg='#e4e4e4',anchor="center",justify='left')
-    remarques_label.grid(row=6, column=0,pady=2)        
-
-    return
-
 def octets(bit_s):
     '''Complete with zeros to multiple of 4 bits'''
     if len(bit_s)%4 != 0:
@@ -232,6 +193,45 @@ def convertBase() :
         result_data.config(text='Enter valid operation')
         print (e)
     
+    return
+
+def aide() :
+    
+    fonction_text = "Ce programme permet à l'utilisateur d'entrer un nombre réel dans n'importe\nquelle base (de 2 à 16) et de le convertir vers une autre base.\n\nSi le résultat du calcul est un nombre entier négatif binaire, l'utilisateur peut\nchoisir de le faire apparaître en complément à deux."
+    utilisation_text = "L'utilisateur doit d'abord choisir la base dans laquelle se trouve le nombre\nsaisi et la base vers laquelle il veut convertir le nombre. Ensuite, l'utilisateur\ndoit saisir le nombre qu'il souhaite convertir et appuyer sur le bouton\n« Convertir » pour effectuer le calcul."
+    remarques_text = "La zone de saisie ne fonctionne qu'avec les caractères possibles dans la base\nchoisie, et renvoie une erreur lorsque ce n'est pas le cas."
+    
+    popup2 = tk.Toplevel(root)
+    popup2.geometry('460x330')
+    popup2.title('Aide Calculator')
+    popup2.configure(background='#e4e4e4')
+    
+    # Création d'une autre frame pour la centrer
+    popup = tk.Frame(popup2)
+    popup.pack()
+    popup.configure(background='#e4e4e4')
+        
+    titre = tk.Label(popup, text='AIDE Convertisseur de bases', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4',anchor="center")
+    titre.grid(row=0, column=0,pady=5)
+    
+    fonction = tk.Label(popup, text='Fonction',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    fonction.grid(row=1, column=0,pady=2)
+    
+    utilisation = tk.Label(popup, text='Utilisation',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    utilisation.grid(row=3, column=0,pady=2)
+    
+    remarques = tk.Label(popup, text='Remarques',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    remarques.grid(row=5, column=0,pady=2)
+    
+    fonction_label = tk.Label(popup, text=fonction_text,bg='#e4e4e4',anchor="center",justify='left')
+    fonction_label.grid(row=2, column=0,pady=2)
+    
+    utilisation_label = tk.Label(popup, text=utilisation_text,bg='#e4e4e4',anchor="center",justify='left')
+    utilisation_label.grid(row=4, column=0,pady=2)
+    
+    remarques_label = tk.Label(popup, text=remarques_text,bg='#e4e4e4',anchor="center",justify='left')
+    remarques_label.grid(row=6, column=0,pady=2)        
+
     return
 
 # Création de la fenêtre tkinter
