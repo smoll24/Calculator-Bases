@@ -79,7 +79,7 @@ def decToBase(saisieFlot,convert_to):
     num = float('.'+saisieFlot)
     
     #Calculation loop
-    while (i < 10) and round(temp,2)!=int(temp):
+    while (i < 10) and temp!=int(temp):
         temp = float(num*convert_to)
         res += VALUES[int(temp)]
         num = temp - int(temp)
