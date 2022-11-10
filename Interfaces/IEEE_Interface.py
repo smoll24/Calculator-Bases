@@ -88,7 +88,10 @@ def convert(num,base):
         num_float = num[x+1:]
     else:
         num_int = num
-        num_float = 0
+        num_float = '0'
+        
+    assert num_int.isalnum()
+    assert num_float.isalnum()
     
     #Transforme nombre en decimal
     num_int = int(str(num_int),base)
