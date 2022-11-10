@@ -55,9 +55,16 @@ def numberToBase(num,fromB = 10,toB = 10):
       result = str(num)
     else:
       #we convert num to a string in the target base and store it in result
+      #We remove the negative sign and add it back at the end
+      negative = False
+      if num < 0:
+          num = abs(num)
+          negative = True
       while num > 0:
           result = VALUES[num%toB] + result
           num //= toB
+      if negative:
+          result = '-' + result
     return result
 
 def decToBase(saisieFlot,convert_to):
@@ -112,12 +119,6 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
     convert_to = int(convert_to)
     saisie = str(saisie)
     
-    #We remove the negative sign and add it back at the end
-    negative = False
-    if saisie[0] == '-' and float(saisie) != 0:
-        saisie = saisie[1:]
-        negative = True
-    
     resFlot = ''
     x = saisie.find('.')
     if x >= 0: #si il y a une virgule
@@ -136,8 +137,6 @@ def convertReel(saisie, convert_from = 10, convert_to = 10):
         
     #Convert the number
     result = numberToBase(saisie,convert_from,convert_to) + resFlot
-    if negative:
-        result = '-' + result
     return result
 
 def stringToBase(saisie, convert_from = 10, convert_to = 10):
@@ -192,32 +191,8 @@ def baseEval_str(saisie,convert_from,convert_to):
         print(e)
         raise
 
-def octets(bit_s):
-    '''Complete with zeros to multiple of 4 bits'''
-    if len(bit_s)%4 != 0:
-        bit_s = ''.join('0' for i in range(4-len(bit_s)%4)) + bit_s
-    return bit_s
- 
-def comp2(bit_s):
-    '''Converts a binary number into a negative complement à deux number'''
-    bit_s = str(bit_s)
-    result = str(bit_s)
-    if int(bit_s) != 0:
-        bit_s = octets(bit_s)
-        inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
-        dec = int(inverse_s,2)+1
-        result = bin(dec)[2:]
-    result = octets(result)
-    result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
-    return result
-
-def complement():
-    complement = messagebox.askquestion("Complément à deux",
-                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
-                           icon = 'question')
-    return complement
-
 def calculate() :
+    
     saisie = champSaisie.get()
          
     convert_from = OPTIONS.get(clicked.get())
@@ -230,7 +205,7 @@ def calculate() :
         #calculate result of operation
         calc_result = baseEval_str(saisie,convert_from,convert_to)
     except Exception as e:        
-        messagebox.showerror(title='Erreur de saisis', message='Erreur de saisis. \nSaisissez une opération valide.')
+        messagebox.showerror(title='Erreur de saisie', message='Erreur de saisie. \nSaisissez une opération valide.')
         result_data.config(text='Enter valid operation')
         print(e)
         
@@ -242,11 +217,69 @@ def calculate() :
         
         #Affiche resultat
         result_data.config(text=calc_result)
+        
+def octets(bit_s):
+    '''Complete with zeros to multiple of 4 bits'''
+    if len(bit_s)%4 != 0:
+        bit_s = '0'*(4-len(bit_s)%4) + bit_s
+    return bit_s
+ 
+def comp2(bit_s):
+    '''Converts a binary number into a negative complement à deux number'''
+    bit_s = str(bit_s)
+    result = bit_s
+    if int(bit_s) != 0:
+        bit_s = octets('0'+bit_s)
+        inverse_s = ''.join(['1' if i == '0' else '0' for i in bit_s])
+        dec = int(inverse_s,2)+1
+        result = bin(dec)[2:]
+    result = octets(result)
+    result = ' '.join(result[i:i+4] for i in range(0, len(result), 4))
+    return result
+
+def complement():
+    complement = messagebox.askquestion("Complément à deux",
+                            "Votre resultat est un nombre entier négatif binaire.\nVoulez-vous le convertir en complément à deux ?",
+                           icon = 'question')
+    return complement
     
 def aide() :
     
-    print('aide')
+    fonction_text = "Ce programme permet à l'utilisateur d'entrer une opération mathématique réelle\ndans n'importe quelle base (de 2 à 16) et de convertir le résultat vers une autre\nbase.\n\nSi le résultat du calcul est un nombre entier négatif binaire, l'utilisateur peut\nchoisir de le faire apparaître en complément à deux."
+    utilisation_text = "L'utilisateur doit d'abord choisir la base ( à gauche ) dans laquelle se trouve l'opération\nsaisie et la base ( à droite ) vers laquelle il veut convertir le résultat. Ensuite, l'utilisateur\ndoit saisir l'opération qu'il souhaite calculer et convertir, et puis appuyer sur le bouton\n« Calculer » pour effectuer le calcul."
+    remarques_text = "La zone de saisie ne fonctionne qu'avec les caractères possibles dans la base\nchoisie, et renvoie une erreur lorsque ce n'est pas le cas. Les opérateurs permis\nsont + , - , / , * , ** , % , et des parenthèses peuvent être employées. Les nombres\ndécimaux doivent être représentés avec un point « . » et non une virgule."
+    
+    popup2 = tk.Toplevel(root)
+    popup2.geometry('490x380')
+    popup2.title('Aide Calculatrice')
+    popup2.configure(background='#e4e4e4')
+    
+    # Création d'une autre frame pour la centrer
+    popup = tk.Frame(popup2)
+    popup.pack()
+    popup.configure(background='#e4e4e4')
         
+    titre = tk.Label(popup, text='AIDE Calculatrice de réels', font=('Arial', 14, 'bold'), fg='#0c6bab', bg='#e4e4e4',anchor="center")
+    titre.grid(row=0, column=0,pady=5)
+    
+    fonction = tk.Label(popup, text='Fonction',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    fonction.grid(row=1, column=0,pady=2)
+    
+    utilisation = tk.Label(popup, text='Utilisation',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    utilisation.grid(row=3, column=0,pady=2)
+    
+    remarques = tk.Label(popup, text='Remarques',bg='#e4e4e4',font=('Arial', 10, 'bold'))
+    remarques.grid(row=5, column=0,pady=2)
+    
+    fonction_label = tk.Label(popup, text=fonction_text,bg='#e4e4e4',anchor="center",justify='left')
+    fonction_label.grid(row=2, column=0,pady=2)
+    
+    utilisation_label = tk.Label(popup, text=utilisation_text,bg='#e4e4e4',anchor="center",justify='left')
+    utilisation_label.grid(row=4, column=0,pady=2)
+    
+    remarques_label = tk.Label(popup, text=remarques_text,bg='#e4e4e4',anchor="center",justify='left')
+    remarques_label.grid(row=6, column=0,pady=2)        
+
     return
     
 def create_window():
