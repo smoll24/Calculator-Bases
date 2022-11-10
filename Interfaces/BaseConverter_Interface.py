@@ -76,8 +76,7 @@ def decToBase(saisieFlot,convert_to):
     i=0
     res = ''
     temp = 0.1
-    saisieFlot = (saisieFlot + '00')[:2] # on veut que deux valeur
-    num = float(saisieFlot)/100
+    num = float('.'+saisieFlot)
     
     #Calculation loop
     while (i < 10) and round(temp,2)!=int(temp):
@@ -192,21 +191,20 @@ def convertBase() :
     base1_label.config(text=convert_from)
     base2_label.config(text=convert_to)
     
-    #We remove the negative sign and add it back at the end
-    negative = False
-    if saisie[0] == '-' and float(saisie) != 0:
-        saisie = saisie[1:]
-        negative = True
-    
-    resFlot = ''
-    x = saisie.find('.')
-    if x >= 0: #si il y a une virgule
-        saisie += '0'
-        saisie = saisie[:x+3] #arrondi a deux chiffres apres la virgule
-        saisieFlot = saisie[x+1:]
-        saisie = saisie[:x]
-    
     try:
+        #We remove the negative sign and add it back at the end
+        negative = False
+        if saisie[0] == '-' and float(saisie) != 0:
+            saisie = saisie[1:]
+            negative = True
+        
+        resFlot = ''
+        x = saisie.find('.')
+        if x >= 0: #si il y a une virgule
+            saisie += '0'
+            saisieFlot = saisie[x+1:]
+            saisie = saisie[:x]
+        
         #Convert the decimal
         if x >= 0:
             if convert_from == 10:
