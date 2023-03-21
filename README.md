@@ -10,6 +10,7 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 - Multiplication and division in any base
 - Exponents and parenthesis
 - Direct number conversion
+- Etc...
 - See help in each program for more info
 ---
 ### How to Use:
