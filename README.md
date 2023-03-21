@@ -13,8 +13,8 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 - See help in each program for more info
 ---
 ### How to Use:
-1) Download the five files in the *interface* folder
-2) Run main_interface.py
+1) Download the five files in the *interface* folder.
+2) Run main_interface.py.
 This will give you access to all the interfaces.
 
 Alternatively, download the specific interace you want and run that file on its own.
