@@ -8,7 +8,7 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 - Calculator functions for bases from binary to hexadecimal
 - Addition and subtraction in any base
 - Multiplication and division in any base
-- Exponents and parenthesis
+- Exponents and parentheses
 - Direct number conversion
 - See help in each program for more info
 ---
