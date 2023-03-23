@@ -4,7 +4,7 @@ Multi-base calculator and conversion interface.
 Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 
 ---
-### Functionalities:
+### Functionalities
 - Calculator functions for bases from binary to hexadecimal,
 - Addition and subtraction in any base,
 - Multiplication and division in any base,
@@ -13,7 +13,7 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 - And much more.
 - See help in each program for more info.
 ---
-### How to Use:
+### How to Use
 1) Download the five files in the *interface* folder.
 2) Run main_interface.py.
 This will give you access to all the interfaces.
