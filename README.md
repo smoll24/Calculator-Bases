@@ -22,6 +22,4 @@ Alternatively, download the specific interace you want and run that file on its 
 
 If you are missing a file, the code will still run the other interfaces.
 
----
-### Example:
 ![image](https://user-images.githubusercontent.com/115204665/226491693-ea57e4d4-8996-42ab-8827-9e5ac81206b7.png)
