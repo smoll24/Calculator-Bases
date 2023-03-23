@@ -1,5 +1,5 @@
 # Calculator-Bases
-Multi-base calculator and conversion interface (written in French)
+Multi-base calculator and conversion interface (written in French).
 
 Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 
