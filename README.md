@@ -18,6 +18,8 @@ Created by Isabella Lu (@ilu24), Chris Moll (@lobsterzerg), Sam Moll (@smoll24).
 2) Run main_interface.py.
 This will give you access to all the interfaces.
 
+Or use the Repl.it version, found here: https://replit.com/@smoll24/Base-Calculator?v=1
+
 Alternatively, download the specific interace you want and run that file on its own.
 
 If you are missing a file, the code will still run the other interfaces.
